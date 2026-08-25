@@ -42,6 +42,10 @@ Scope {
           Layout.alignment: Qt.AlignLeft
         }
 
+        SeparatorWidget {
+          visible: dmenuWidget.visible
+        }
+
         DmenuWidget {
           id: dmenuWidget
           Layout.fillWidth: true
@@ -56,8 +60,6 @@ Scope {
         }
 
         NetworkWidget {}
-
-        SeparatorWidget {}
 
         ClockWidget {
           Layout.alignment: Qt.AlignRight

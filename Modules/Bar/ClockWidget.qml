@@ -8,7 +8,7 @@ import qs.Services
 Rectangle {
   color: SettingsService.colors.base00
 
-  implicitWidth: clockText.implicitWidth + 10
+  implicitWidth: clockText.implicitWidth + 20
   implicitHeight: clockText.implicitHeight + 5
 
   MesaText {
