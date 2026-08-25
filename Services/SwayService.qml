@@ -4,12 +4,10 @@ import Quickshell
 import Quickshell.I3
 import Quickshell.Io
 
-import ".."
-
 Singleton {
   id: root
 
-  readonly property bool persistent: Settings.workspaces.persistent
+  readonly property bool persistent: SettingsService.workspaces.persistent
   readonly property int count: 10
 
   property string mode: "defulat" // resize

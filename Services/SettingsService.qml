@@ -22,7 +22,7 @@ Singleton {
   FileView {
     id: view
 
-    path: Qt.resolvedUrl("./settings.json")
+    path: Qt.resolvedUrl("../settings.json")
     watchChanges: true
     onFileChanged: reload()
 
