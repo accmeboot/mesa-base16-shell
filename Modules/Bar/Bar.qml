@@ -16,7 +16,7 @@ Scope {
 
       color: SettingsService.colors.base00
 
-      WlrLayershell.keyboardFocus: DmenuService.isOpen ? WlrKeyboardFocus.None : WlrKeyboardFocus.OnDemand
+      WlrLayershell.keyboardFocus: DmenuService.isOpen ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
       anchors {
         top: true
@@ -43,7 +43,20 @@ Scope {
         }
 
         DmenuWidget {
+          id: dmenuWidget
           Layout.fillWidth: true
+        }
+
+        Rectangle {
+          implicitWidth: 2
+          Layout.fillHeight: true
+
+          Layout.leftMargin: 10
+          Layout.rightMargin: 10
+
+          visible: dmenuWidget.visible
+
+          color: SettingsService.colors.base01
         }
 
         Item {

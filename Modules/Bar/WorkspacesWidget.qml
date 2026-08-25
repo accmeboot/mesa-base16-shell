@@ -20,7 +20,7 @@ RowLayout {
 
       visible: modelData.monitor === root.screen.name
 
-      implicitWidth: label.implicitWidth + 25
+      implicitWidth: label.implicitWidth + 20
       implicitHeight: label.implicitHeight + 5
 
       color: modelData.focused ? SettingsService.colors.base05 : (modelData.urgent ? SettingsService.colors.base08 : SettingsService.colors.base00)
@@ -34,7 +34,7 @@ RowLayout {
 
 
       Rectangle {
-        visible: modelData.occupied
+        visible: modelData.occupied && SettingsService.workspaces.persistent
 
         anchors.top: parent.top
         anchors.left: parent.left

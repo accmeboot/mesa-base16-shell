@@ -9,15 +9,84 @@ import qs.Components
 RowLayout {
   id: root
 
-  spacing: 0
+  spacing: 5
+
+  visible: DmenuService.isOpen
+
+  onVisibleChanged: {
+    if (!visible) {
+      searchField.text = "";
+      menuList.currentIndex = 0;
+    }
+  }
+
+  property var filteredApplications: {
+    const query = searchField.text.toLowerCase();
+    if (query === "") {
+      return DmenuService.applications;
+    }
+    return DmenuService.applications.filter(app => app.toLowerCase().includes(query));
+  }
+
+  TextField {
+    id: searchField
+
+    Layout.fillHeight: true
+
+    focus: true
+
+    font.family: SettingsService.font.name
+    font.pointSize: SettingsService.font.size
+    color: SettingsService.colors.base05
+
+    leftPadding: 5
+    rightPadding: 5
+    topPadding: 0
+    bottomPadding: 0
+
+    background: Rectangle {
+      implicitWidth: 150
+      color: SettingsService.colors.base02
+    }
+
+    onTextChanged: {
+      menuList.currentIndex = 0;
+    }
+
+    Keys.onEscapePressed: DmenuService.close()
+    Keys.onReturnPressed: {
+      if (menuList.currentIndex >= 0 && menuList.currentIndex < root.filteredApplications.length) {
+        DmenuService.execute(root.filteredApplications[menuList.currentIndex]);
+      }
+    }
+    Keys.onEnterPressed: {
+      if (menuList.currentIndex >= 0 && menuList.currentIndex < root.filteredApplications.length) {
+        DmenuService.execute(root.filteredApplications[menuList.currentIndex]);
+      }
+    }
+    Keys.onDownPressed: {
+      menuList.currentIndex = 0;
+    }
+    Keys.onRightPressed: {
+      if (menuList.currentIndex < 0) {
+        menuList.currentIndex = 0;
+      } else {
+        menuList.incrementCurrentIndex();
+      }
+    }
+    Keys.onLeftPressed: {
+      if (menuList.currentIndex < 0) {
+        menuList.currentIndex = 0;
+      } else {
+        menuList.decrementCurrentIndex();
+      }
+    }
+  }
 
   ScrollView {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    visible: DmenuService.isOpen
-
-    focus: true
     clip: true
 
     ScrollBar.vertical.policy: ScrollBar.AlwaysOff
@@ -27,20 +96,20 @@ RowLayout {
 
     ListView {
       id: menuList
-      model: 1000
+      model: root.filteredApplications
       orientation: Qt.Horizontal
 
-      focus: true
       keyNavigationEnabled: true
+
       highlightFollowsCurrentItem: true
+      highlightMoveDuration: 0
 
-      Keys.onEscapePressed: DmenuService.close()
-
-      spacing: 5
+      spacing: 0
 
       delegate: ItemDelegate {
         id: delegateRoot
         required property int index
+        required property string modelData
 
         anchors.verticalCenter: parent?.verticalCenter
 
@@ -48,17 +117,21 @@ RowLayout {
         background: null
 
         contentItem: Rectangle {
-          implicitWidth: label.implicitWidth + 25
+          implicitWidth: label.implicitWidth + 20
           implicitHeight: label.implicitHeight + 5
 
           color: delegateRoot.ListView.isCurrentItem
-            ? SettingsService.colors.base0D
-            : SettingsService.colors.base03
+            ? SettingsService.colors.base05
+            : SettingsService.colors.base00
 
           MesaText {
             id: label
-            text: "Item " + index
+            text: modelData
             anchors.centerIn: parent
+
+            color: delegateRoot.ListView.isCurrentItem
+              ? SettingsService.colors.base00
+              : SettingsService.colors.base05
           }
         }       
       }
