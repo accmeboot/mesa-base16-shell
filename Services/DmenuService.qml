@@ -12,7 +12,6 @@ Singleton {
 
   function open(): void {
     isOpen = true;
-    console.log(applications)
   }
 
   function close(): void {
