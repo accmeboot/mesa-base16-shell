@@ -26,10 +26,17 @@ Scope {
         anchors.left: parent.left
         anchors.right: parent.right
 
-
         WorkspacesWidget {
           Layout.alignment: Qt.AlignLeft
           screen: modelData
+        }
+
+        ModeWidget {
+          Layout.alignment: Qt.AlignLeft
+        }
+
+        Item {
+          Layout.fillWidth: true
         }
 
         ClockWidget {

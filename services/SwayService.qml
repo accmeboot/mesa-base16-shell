@@ -12,6 +12,8 @@ Singleton {
   readonly property bool persistent: Settings.workspaces.persistent
   readonly property int count: 10
 
+  property string mode: "defulat" // resize
+
   function getWorkspacesForMonitor(monitor: string): var {
     let existingWorkspaces = I3.workspaces.values
     .filter((ws) => ws.monitor?.name === monitor)
@@ -48,17 +50,42 @@ Singleton {
     return existingWorkspaces.sort((a, b) => a.number - b.number)
   }
 
+  I3IpcListener {
+    subscriptions: ["mode"]
+    onIpcEvent: event => {
+      if (event.data) {
+        try {
+          const data = JSON.parse(event.data)
 
-  Process {
-    running: true
-    command: ["swaymsg", "-r", "-m", "-t", "subscribe", '["window"]']
+          if (data?.change) {
+            root.mode = data.change
+          }
+        } catch (e) {
+          console.error(e)
+        }
+      }
+    }
+  }
 
-    stdout: SplitParser {
-      onRead: data => {
-        const change = JSON.parse(data).change;
 
-        if (["new", "close", "move", "floating"].includes(change))
-          I3.refreshWorkspaces();
+  I3IpcListener {
+    subscriptions: ["window"]
+    onIpcEvent: event => {
+      if (event.data) {
+        try {
+          const data = JSON.parse(event.data)
+          const changeTypes = ["new", "close", "move", "floating"];
+
+          if (data?.change && changeTypes.includes(data.change)) {
+            I3.refreshWorkspaces();
+          }
+
+          if (data?.chage === 'focus') {
+
+          }
+        } catch (e) {
+          console.error(e)
+        }
       }
     }
   }

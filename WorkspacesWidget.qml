@@ -12,7 +12,7 @@ RowLayout {
   spacing: 0
 
   Repeater {
-    model: WorkspacesService.getWorkspacesForMonitor(root.screen.name)
+    model: SwayService.getWorkspacesForMonitor(root.screen.name)
 
     Rectangle {
       required property var modelData
@@ -22,7 +22,7 @@ RowLayout {
       implicitWidth: label.implicitWidth + 20
       implicitHeight: label.implicitHeight + 6
 
-      color: modelData.focused ? Settings.colors.base05 : (modelData.urgent ? Settings.colors.base08 : Settings.colors.base01)
+      color: modelData.focused ? Settings.colors.base05 : (modelData.urgent ? Settings.colors.base08 : Settings.colors.base00)
 
       MesaText {
         id: label
