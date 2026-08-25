@@ -2,13 +2,24 @@ import Quickshell
 import QtQuick
 
 import qs.Components
+import qs.Services
 
 
-MesaText {
-  SystemClock {
-    id: clock
-    precision: SystemClock.Minutes
+Rectangle {
+  color: SettingsService.colors.base00
+
+  implicitWidth: clockText.implicitWidth + 10
+  implicitHeight: clockText.implicitHeight + 5
+
+  MesaText {
+    id: clockText
+    anchors.centerIn: parent
+
+    SystemClock {
+      id: clock
+      precision: SystemClock.Minutes
+    }
+
+    text: Qt.formatDateTime(clock.date, "dddd HH:mm")
   }
-
-  text: Qt.formatDateTime(clock.date, "dddd HH:mm") + " "
 }

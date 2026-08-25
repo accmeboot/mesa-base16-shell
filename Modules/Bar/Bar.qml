@@ -47,21 +47,17 @@ Scope {
           Layout.fillWidth: true
         }
 
-        Rectangle {
-          implicitWidth: 2
-          Layout.fillHeight: true
-
-          Layout.leftMargin: 10
-          Layout.rightMargin: 10
-
+        SeparatorWidget {
           visible: dmenuWidget.visible
-
-          color: SettingsService.colors.base01
         }
 
         Item {
           Layout.fillWidth: true
         }
+
+        NetworkWidget {}
+
+        SeparatorWidget {}
 
         ClockWidget {
           Layout.alignment: Qt.AlignRight
