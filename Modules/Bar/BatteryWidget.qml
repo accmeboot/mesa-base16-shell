@@ -15,6 +15,8 @@ Rectangle {
   property UPowerDevice device: UPower.displayDevice
   property int percentage: device ? device.percentage * 100 : null
 
+  visible: !device
+
   RowLayout {
     id: batteryRow
     anchors.centerIn: parent
