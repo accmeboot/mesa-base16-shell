@@ -46,7 +46,7 @@ RowLayout {
 
     background: Rectangle {
       implicitWidth: 150
-      color: SettingsService.colors.base02
+      color: SettingsService.colors.base01
     }
 
     onTextChanged: {
