@@ -38,12 +38,12 @@ Scope {
           screen: modelData
         }
 
-        ModeWidget {
+        DmenuButtonWidget {
           Layout.alignment: Qt.AlignLeft
         }
 
-        SeparatorWidget {
-          visible: dmenuWidget.visible
+        ModeWidget {
+          Layout.alignment: Qt.AlignLeft
         }
 
         DmenuWidget {

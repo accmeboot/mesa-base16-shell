@@ -104,7 +104,28 @@ RowLayout {
       highlightFollowsCurrentItem: true
       highlightMoveDuration: 0
 
+      interactive: false
+
       spacing: 0
+
+      WheelHandler {
+        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+
+        property int accumulated: 0
+
+        onWheel: event => {
+          accumulated += event.angleDelta.y !== 0 ? event.angleDelta.y : event.angleDelta.x;
+
+          while (accumulated <= -120) {
+            accumulated += 120;
+            menuList.incrementCurrentIndex();
+          }
+          while (accumulated >= 120) {
+            accumulated -= 120;
+            menuList.decrementCurrentIndex();
+          }
+        }
+      }
 
       delegate: ItemDelegate {
         id: delegateRoot
@@ -115,6 +136,13 @@ RowLayout {
 
         padding: 0
         background: null
+
+        focusPolicy: Qt.NoFocus
+
+        onClicked: {
+          menuList.currentIndex = index;
+          DmenuService.execute(modelData);
+        }
 
         contentItem: Rectangle {
           implicitWidth: label.implicitWidth + 20
