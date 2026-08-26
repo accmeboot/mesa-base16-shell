@@ -61,6 +61,8 @@ Scope {
 
         NetworkWidget {}
 
+        BatteryWidget {}
+
         ClockWidget {
           Layout.alignment: Qt.AlignRight
         }
