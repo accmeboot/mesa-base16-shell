@@ -38,11 +38,11 @@ Scope {
           screen: modelData
         }
 
-        DmenuButtonWidget {
+        ModeWidget {
           Layout.alignment: Qt.AlignLeft
         }
 
-        ModeWidget {
+        DmenuButtonWidget {
           Layout.alignment: Qt.AlignLeft
         }
 

@@ -11,5 +11,5 @@ Rectangle {
   Layout.leftMargin: 10
   Layout.rightMargin: 10
 
-  color: SettingsService.colors.base01
+  color: SettingsService.colors.base0A
 }

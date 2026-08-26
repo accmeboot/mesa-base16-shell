@@ -15,6 +15,7 @@ Rectangle {
     id: buttonLabel
     anchors.centerIn: parent
     text: ""
+    color: SettingsService.colors.base0A
   }
 
   MouseArea {
