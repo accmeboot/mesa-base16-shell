@@ -60,11 +60,12 @@ Scope {
         }
 
         PipewireOutputWidget {}
+
         PipewireInputWidget {}
 
-        NetworkWidget {}
-
         BatteryWidget {}
+
+        NetworkWidget {}
 
         ClockWidget {
           Layout.alignment: Qt.AlignRight
