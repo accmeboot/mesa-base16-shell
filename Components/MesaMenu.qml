@@ -153,6 +153,7 @@ FocusScope {
       visible: root.searchable
 
       Layout.fillHeight: true
+      Layout.rightMargin: 10
 
       font.family: SettingsService.font.name
       font.pointSize: SettingsService.font.size

@@ -8,7 +8,7 @@ import qs.Services
 RowLayout {
   id: root
 
-  spacing: 10
+  spacing: 0
 
   Layout.fillWidth: DmenuService.isOpen
 
