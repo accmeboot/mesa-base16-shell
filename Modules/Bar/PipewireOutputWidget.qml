@@ -6,53 +6,87 @@ import Quickshell.Services.Pipewire
 import qs.Components
 import qs.Services
 
-Rectangle {
-  color: SettingsService.colors.base00
+RowLayout {
+  id: root
 
-  implicitWidth: batteryRow.implicitWidth + 20
-  implicitHeight: batteryRow.implicitHeight + 5
-
-	PwObjectTracker {
-		objects: [ Pipewire.defaultAudioSink ]
-	}
+  spacing: 0
 
   property var device: Pipewire.defaultAudioSink
   property real volumeStep: 0.01
 
-  RowLayout {
-    id: batteryRow
-    anchors.centerIn: parent
+  readonly property bool menuOpen: MenuService.isCurrent("pipewireOutput")
 
-    MesaText {
-      text: device?.audio.muted ? "" : ""
-      color: device?.audio.muted ? SettingsService.colors.base08 : SettingsService.colors.base05
+  property var sinks: Pipewire.nodes.values.filter(node => node.isSink && node.audio && !node.isStream)
+
+  PwObjectTracker {
+    objects: [Pipewire.defaultAudioSink]
+  }
+
+  PwObjectTracker {
+    objects: root.sinks
+  }
+
+  Rectangle {
+    color: SettingsService.colors.base00
+
+    implicitWidth: outputRow.implicitWidth + 20
+    implicitHeight: outputRow.implicitHeight + 5
+
+    RowLayout {
+      id: outputRow
+      anchors.centerIn: parent
+
+      MesaText {
+        text: device?.audio.muted ? "" : ""
+        color: root.device?.audio.muted ? SettingsService.colors.base08 : SettingsService.colors.base05
+      }
+
+      MesaText {
+        text: Math.round(root.device?.audio.volume * 100) + "%"
+      }
     }
 
-    MesaText {
-      text: Math.round(device?.audio.volume * 100) + "%"
+    MouseArea {
+      anchors.fill: parent
+      hoverEnabled: true
+      cursorShape: Qt.PointingHandCursor
+      acceptedButtons: Qt.LeftButton | Qt.MiddleButton
+      onClicked: mouse => {
+        if (mouse.button === Qt.LeftButton) {
+          MenuService.toggle("pipewireOutput");
+        }
+
+        if (mouse.button === Qt.MiddleButton && root.device) {
+          root.device.audio.muted = !root.device.audio.muted;
+        }
+      }
+      onWheel: wheel => {
+        if (!root.device)
+          return;
+
+        const delta = wheel.angleDelta.y !== 0 ? wheel.angleDelta.y : wheel.angleDelta.x;
+        if (delta === 0)
+          return;
+
+        const steps = delta / 120;
+        root.device.audio.volume = Math.max(0, Math.min(1, root.device.audio.volume + steps * root.volumeStep));
+      }
     }
   }
 
-  MouseArea {
-    anchors.fill: parent
-    hoverEnabled: true
-    cursorShape: Qt.PointingHandCursor
-    acceptedButtons: Qt.LeftButton | Qt.MiddleButton
-    onClicked: mouse => {
-      if (mouse.button === Qt.MiddleButton && device) {
-        device.audio.muted = !device.audio.muted
-      }
-    }
-    onWheel: wheel => {
-      if (!device)
-        return
+  MesaMenu {
+    visible: root.menuOpen
 
-      const delta = wheel.angleDelta.y !== 0 ? wheel.angleDelta.y : wheel.angleDelta.x
-      if (delta === 0)
-        return
+    Layout.maximumWidth: 500
+    Layout.fillHeight: true
 
-      const steps = delta / 120
-      device.audio.volume = Math.max(0, Math.min(1, device.audio.volume + steps * volumeStep))
+    source: root.sinks
+    labelFn: node => (node === device ? "" : "") + (node.nickname || node.name)
+
+    onAccepted: item => {
+      Pipewire.preferredDefaultAudioSink = item;
+      MenuService.close();
     }
+    onCancelled: MenuService.close()
   }
 }

@@ -7,15 +7,17 @@ import QtQuick
 Singleton {
   id: root
 
-  property bool isOpen: false
+  readonly property bool isOpen: MenuService.isCurrent("dmenu")
   property var applications: []
 
   function open(): void {
-    isOpen = true;
+    MenuService.open("dmenu");
   }
 
   function close(): void {
-    isOpen = false;
+    if (isOpen) {
+      MenuService.close();
+    }
   }
 
   function execute(command: string): void {

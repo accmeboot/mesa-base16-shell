@@ -16,7 +16,7 @@ Scope {
 
       color: SettingsService.colors.base00
 
-      WlrLayershell.keyboardFocus: DmenuService.isOpen ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+      WlrLayershell.keyboardFocus: MenuService.isOpen ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
       anchors {
         top: true
@@ -42,17 +42,8 @@ Scope {
           Layout.alignment: Qt.AlignLeft
         }
 
-        DmenuButtonWidget {
-          Layout.alignment: Qt.AlignLeft
-        }
-
         DmenuWidget {
-          id: dmenuWidget
-          Layout.fillWidth: true
-        }
-
-        SeparatorWidget {
-          visible: dmenuWidget.visible
+          Layout.alignment: Qt.AlignLeft
         }
 
         Item {
