@@ -59,6 +59,9 @@ Scope {
           Layout.fillWidth: true
         }
 
+        PipewireOutputWidget {}
+        PipewireInputWidget {}
+
         NetworkWidget {}
 
         BatteryWidget {}

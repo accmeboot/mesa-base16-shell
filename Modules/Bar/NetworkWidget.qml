@@ -20,13 +20,13 @@ Rectangle {
 
     MesaText {
       text: {
-        if (!device) return "󰌙"
+        if (!device) return "󰲛"
 
         if (device.type === DeviceType.Wifi) {
           return "󰤨"
         }
 
-        return "󰲝"
+        return "󰛳"
       }
     }
 
