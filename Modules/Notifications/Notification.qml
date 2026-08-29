@@ -63,7 +63,7 @@ Rectangle {
     anchors.fill: parent
     anchors.margins: root.inset
 
-    spacing: SettingsService.spacing.horizontal
+    spacing: root.padding
 
     NotificationIcon {
       id: notificationIcon
