@@ -20,8 +20,8 @@ RowLayout {
 
       visible: modelData.monitor === root.screen.name
 
-      implicitWidth: label.implicitWidth + 20
-      implicitHeight: label.implicitHeight + 5
+      implicitWidth: label.implicitWidth + SettingsService.spacing.horizontal
+      implicitHeight: label.implicitHeight + SettingsService.spacing.vertical
 
       color: modelData.focused ? SettingsService.colors.base05 : (modelData.urgent ? SettingsService.colors.base08 : SettingsService.colors.base00)
 

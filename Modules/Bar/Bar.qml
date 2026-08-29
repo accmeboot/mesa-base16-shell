@@ -5,6 +5,7 @@ import Quickshell.Wayland
 import QtQuick.Layouts
 
 import qs.Services
+import qs.Components
 
 Scope {
   Variants {
@@ -16,7 +17,7 @@ Scope {
 
       color: SettingsService.colors.base00
 
-      WlrLayershell.keyboardFocus: MenuService.isOpen ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+      WlrLayershell.keyboardFocus: DmenuService.isOpen ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
       anchors {
         top: true
@@ -37,30 +38,20 @@ Scope {
           Layout.alignment: Qt.AlignLeft
           screen: modelData
         }
+        ModeWidget {}
+        DmenuWidget {}
 
-        ModeWidget {
-          Layout.alignment: Qt.AlignLeft
-        }
+        Item { Layout.fillWidth: true }
 
-        DmenuWidget {
-          Layout.alignment: Qt.AlignLeft
-        }
-
-        Item {
-          Layout.fillWidth: true
-        }
-
-        PipewireOutputWidget {}
-
-        PipewireInputWidget {}
-
+        CpuWidget {}
+        MesaSeparator {}
+        RamWidget {}
+        MesaSeparator {}
         BatteryWidget {}
-
+        MesaSeparator {}
         NetworkWidget {}
-
-        ClockWidget {
-          Layout.alignment: Qt.AlignRight
-        }
+        MesaSeparator {}
+        ClockWidget {}
       }
     }
   }

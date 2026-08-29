@@ -8,8 +8,8 @@ Rectangle {
   implicitWidth: 2
   Layout.fillHeight: true
 
-  Layout.leftMargin: 10
-  Layout.rightMargin: 10
+  Layout.leftMargin: SettingsService.spacing.horizontal / 2
+  Layout.rightMargin: SettingsService.spacing.horizontal / 2
 
   color: SettingsService.colors.base01
 }

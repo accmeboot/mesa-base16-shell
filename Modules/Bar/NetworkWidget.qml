@@ -9,8 +9,8 @@ import qs.Services
 Rectangle {
   color: SettingsService.colors.base00
 
-  implicitWidth: networkRow.implicitWidth + 20
-  implicitHeight: networkRow.implicitHeight + 5
+  implicitWidth: networkRow.implicitWidth + SettingsService.spacing.horizontal
+  implicitHeight: networkRow.implicitHeight + SettingsService.spacing.vertical
 
   property var device: Networking.devices.values.find((d) => d.connected)
 
@@ -19,15 +19,8 @@ Rectangle {
     anchors.centerIn: parent
 
     MesaText {
-      text: {
-        if (!device) return "󰲛"
-
-        if (device.type === DeviceType.Wifi) {
-          return "󰤨"
-        }
-
-        return "󰛳"
-      }
+      text: "NET"
+      color: SettingsService.colors.base0A
     }
 
     MesaText {
@@ -41,7 +34,7 @@ Rectangle {
       }
 
       text: {
-        if (!device) return "Disconnected"
+        if (!device) return "N/A"
 
         if (device.type === DeviceType.Wifi) return getConnectedSsid()
 

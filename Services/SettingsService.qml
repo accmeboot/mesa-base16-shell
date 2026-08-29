@@ -10,6 +10,7 @@ Singleton {
   readonly property alias colors: adapter.colors
   readonly property alias font: adapter.font
   readonly property alias workspaces: adapter.workspaces
+  readonly property alias spacing: adapter.spacing
 
   IpcHandler {
     target: "settings"
@@ -56,6 +57,11 @@ Singleton {
 
       property JsonObject workspaces: JsonObject {
         property bool persistent: true
+      }
+
+      property JsonObject spacing: JsonObject {
+        property int horizontal: 20
+        property int vertical: 10
       }
     }
   }
