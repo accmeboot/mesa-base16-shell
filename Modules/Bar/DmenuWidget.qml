@@ -20,12 +20,32 @@ RowLayout {
     }
   }
 
+  readonly property bool hasArguments: /\s/.test(searchField.text.trim())
+
   property var filteredApplications: {
-    const query = searchField.text.toLowerCase();
+    if (hasArguments) {
+      return [];
+    }
+
+    const query = searchField.text.trim().toLowerCase();
     if (query === "") {
       return DmenuService.applications;
     }
     return DmenuService.applications.filter(app => app.toLowerCase().includes(query));
+  }
+
+  function submit(): void {
+    const hasSelection = menuList.currentIndex >= 0 && menuList.currentIndex < filteredApplications.length;
+
+    if (hasSelection) {
+      DmenuService.execute(filteredApplications[menuList.currentIndex]);
+      return;
+    }
+
+    const command = searchField.text.trim();
+    if (command !== "") {
+      DmenuService.execute(command);
+    }
   }
 
   MesaSeparator {}
@@ -56,16 +76,8 @@ RowLayout {
     }
 
     Keys.onEscapePressed: DmenuService.close()
-    Keys.onReturnPressed: {
-      if (menuList.currentIndex >= 0 && menuList.currentIndex < root.filteredApplications.length) {
-        DmenuService.execute(root.filteredApplications[menuList.currentIndex]);
-      }
-    }
-    Keys.onEnterPressed: {
-      if (menuList.currentIndex >= 0 && menuList.currentIndex < root.filteredApplications.length) {
-        DmenuService.execute(root.filteredApplications[menuList.currentIndex]);
-      }
-    }
+    Keys.onReturnPressed: root.submit()
+    Keys.onEnterPressed: root.submit()
     Keys.onDownPressed: {
       menuList.currentIndex = 0;
     }
