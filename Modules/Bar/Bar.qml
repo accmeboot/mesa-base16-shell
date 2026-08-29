@@ -43,14 +43,18 @@ Scope {
 
         Item { Layout.fillWidth: true }
 
-        CpuWidget {}
-        MesaSeparator {}
-        RamWidget {}
-        MesaSeparator {}
-        BatteryWidget {}
-        MesaSeparator {}
-        NetworkWidget {}
-        MesaSeparator {}
+        CpuWidget { id: cpuWidget }
+        MesaSeparator { visible: cpuWidget.visible }
+
+        RamWidget { id: ramWidget }
+        MesaSeparator { visible: ramWidget.visible }
+
+        BatteryWidget { id: batteryWidget }
+        MesaSeparator { visible: batteryWidget.visible }
+
+        NetworkWidget { id: networkWidget }
+        MesaSeparator { visible: networkWidget.visible }
+
         ClockWidget {}
       }
     }
