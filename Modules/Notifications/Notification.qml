@@ -95,9 +95,9 @@ Rectangle {
               case NotificationUrgency.Critical:
               return SettingsService.colors.base08;
               case NotificationUrgency.Normal:
-              return SettingsService.colors.base0D;
+              return SettingsService.colors.base05;
               default:
-              return SettingsService.colors.base0D;
+              return SettingsService.colors.base05;
             }
           }
           font.bold: true
@@ -141,6 +141,8 @@ Rectangle {
 
         spacing: SettingsService.spacing.vertical
 
+        visible: Boolean(modelData.actions.count)
+
         Repeater {
           model: modelData.actions
 
@@ -149,7 +151,7 @@ Rectangle {
 
             required property var modelData
 
-            color: SettingsService.colors.base05
+            color: SettingsService.colors.base0D
 
             implicitWidth: actionText.width + SettingsService.spacing.horizontal
             implicitHeight: actionText.implicitHeight + SettingsService.spacing.vertical

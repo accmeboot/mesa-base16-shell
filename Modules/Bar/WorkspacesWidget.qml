@@ -23,7 +23,7 @@ RowLayout {
       implicitWidth: label.implicitWidth + SettingsService.spacing.horizontal
       implicitHeight: label.implicitHeight + SettingsService.spacing.vertical
 
-      color: modelData.focused ? SettingsService.colors.base05 : (modelData.urgent ? SettingsService.colors.base08 : SettingsService.colors.base00)
+      color: modelData.focused ? SettingsService.colors.base0D : (modelData.urgent ? SettingsService.colors.base08 : SettingsService.colors.base00)
 
       MesaText {
         id: label

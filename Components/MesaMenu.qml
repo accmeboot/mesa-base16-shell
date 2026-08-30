@@ -130,7 +130,7 @@ PopupWindow {
 
           color: {
             if (modelData.isSeparator) return SettingsService.colors.base01;
-            return highlighted ? SettingsService.colors.base05 : SettingsService.colors.base00;
+            return highlighted ? SettingsService.colors.base0D : SettingsService.colors.base00;
           }
 
           function openSubmenu(): void {

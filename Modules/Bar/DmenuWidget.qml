@@ -188,7 +188,7 @@ RowLayout {
             implicitHeight: label.implicitHeight + SettingsService.spacing.vertical
 
             color: delegateRoot.ListView.isCurrentItem
-            ? SettingsService.colors.base05
+            ? SettingsService.colors.base0D
             : SettingsService.colors.base00
 
             MesaText {
