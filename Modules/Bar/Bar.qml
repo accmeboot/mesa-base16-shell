@@ -17,7 +17,12 @@ Scope {
 
       color: SettingsService.colors.base00
 
-      WlrLayershell.keyboardFocus: DmenuService.isOpen ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+      WlrLayershell.keyboardFocus: {
+        if (DmenuService.isOpen) return WlrKeyboardFocus.Exclusive;
+        if (tray.menuOpen) return WlrKeyboardFocus.OnDemand;
+
+        return WlrKeyboardFocus.None;
+      }
 
       anchors {
         top: true
@@ -42,6 +47,9 @@ Scope {
         DmenuWidget {}
 
         Item { Layout.fillWidth: true }
+
+        TrayWidget { id: tray }
+        MesaSeparator { visible: cpuWidget.visible }
 
         CpuWidget { id: cpuWidget }
         MesaSeparator { visible: cpuWidget.visible }
