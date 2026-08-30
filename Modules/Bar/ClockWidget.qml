@@ -17,11 +17,6 @@ Rectangle {
     anchors.centerIn: parent
 
     MesaText {
-      text: "RTC"
-      color: SettingsService.colors.base05
-    }
-
-    MesaText {
       SystemClock {
         id: clock
         precision: SystemClock.Minutes
