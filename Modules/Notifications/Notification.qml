@@ -29,7 +29,6 @@ Rectangle {
 
     anchors.top: parent.top
     anchors.left: parent.left
-    anchors.margins: root.border.width
 
     z: 1
 
@@ -134,8 +133,8 @@ Rectangle {
       }
 
 
-      RowLayout {
-        id: actionsRow
+      Flow {
+        id: actionsFlow
 
         Layout.fillWidth: true
         Layout.topMargin: SettingsService.spacing.vertical
@@ -150,19 +149,18 @@ Rectangle {
 
             required property var modelData
 
-            Layout.fillWidth: true
-            Layout.preferredWidth: 0
-
             color: SettingsService.colors.base0A
 
+            implicitWidth: actionText.width + SettingsService.spacing.horizontal
             implicitHeight: actionText.implicitHeight + SettingsService.spacing.vertical
 
             MesaText {
               id: actionText
-              anchors.fill: parent
-              anchors.margins: SettingsService.spacing.vertical / 2
-              horizontalAlignment: Text.AlignHCenter
-              verticalAlignment: Text.AlignVCenter
+
+              anchors.centerIn: parent
+
+              width: Math.min(implicitWidth, actionsFlow.width - SettingsService.spacing.horizontal)
+
               color: SettingsService.colors.base00
               text: action.modelData.text
               elide: Text.ElideRight
