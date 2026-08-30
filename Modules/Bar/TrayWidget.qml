@@ -84,7 +84,7 @@ RowLayout {
 
       anchors.centerIn: parent
 
-      text: trayRow.isVisible ? ">" : "<"
+      text: trayRow.isVisible ? "X" : "<"
       color: SettingsService.colors.base05
     }
 

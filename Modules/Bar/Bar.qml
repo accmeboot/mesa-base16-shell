@@ -44,6 +44,7 @@ Scope {
           screen: modelData
         }
         ModeWidget {}
+        MesaSeparator {}
         DmenuWidget {}
 
         Item { Layout.fillWidth: true }

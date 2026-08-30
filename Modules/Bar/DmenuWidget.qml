@@ -9,17 +9,6 @@ import qs.Components
 RowLayout {
   id: root
 
-  spacing: 5
-
-  visible: DmenuService.isOpen
-
-  onVisibleChanged: {
-    if (!visible) {
-      searchField.text = "";
-      menuList.currentIndex = 0;
-    }
-  }
-
   readonly property bool hasArguments: /\s/.test(searchField.text.trim())
 
   property var filteredApplications: {
@@ -48,134 +37,173 @@ RowLayout {
     }
   }
 
-  TextField {
-    id: searchField
 
-    Layout.fillHeight: true
+  Rectangle {
+    implicitWidth: toggleLabel.implicitWidth + SettingsService.spacing.horizontal
+    implicitHeight: toggleLabel.implicitHeight + SettingsService.spacing.vertical
 
-    focus: true
+    color: SettingsService.colors.base00
 
-    font.family: SettingsService.font.name
-    font.pointSize: SettingsService.font.size
-    color: SettingsService.colors.base05
+    MesaText {
+      id: toggleLabel
 
-    leftPadding: 5
-    rightPadding: 5
-    topPadding: 0
-    bottomPadding: 0
+      anchors.centerIn: parent
 
-    background: Rectangle {
-      implicitWidth: 150
-      color: SettingsService.colors.base01
+      text: DmenuService.isOpen ? "X" : ">"
+      color: SettingsService.colors.base05
     }
 
-    onTextChanged: {
-      menuList.currentIndex = 0;
-    }
+    MouseArea {
+      anchors.fill: parent
+      cursorShape: Qt.PointingHandCursor
+      hoverEnabled: true
 
-    Keys.onEscapePressed: DmenuService.close()
-    Keys.onReturnPressed: root.submit()
-    Keys.onEnterPressed: root.submit()
-    Keys.onDownPressed: {
-      menuList.currentIndex = 0;
-    }
-    Keys.onRightPressed: {
-      if (menuList.currentIndex < 0) {
-        menuList.currentIndex = 0;
-      } else {
-        menuList.incrementCurrentIndex();
-      }
-    }
-    Keys.onLeftPressed: {
-      if (menuList.currentIndex < 0) {
-        menuList.currentIndex = 0;
-      } else {
-        menuList.decrementCurrentIndex();
+      onClicked: () => {
+        DmenuService.isOpen ? DmenuService.close() : DmenuService.open();
       }
     }
   }
 
-  ScrollView {
-    Layout.fillWidth: true
-    Layout.fillHeight: true
+  RowLayout {
+    id: menuRow
 
-    clip: true
+    visible: DmenuService.isOpen
 
-    ScrollBar.vertical.policy: ScrollBar.AlwaysOff
-    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+    onVisibleChanged: {
+      if (!visible) {
+        searchField.text = "";
+        menuList.currentIndex = 0;
+      }
+    }
+    TextField {
+      id: searchField
 
-    spacing: 0
+      Layout.fillHeight: true
 
-    ListView {
-      id: menuList
-      model: root.filteredApplications
-      orientation: Qt.Horizontal
+      focus: true
 
-      keyNavigationEnabled: true
+      font.family: SettingsService.font.name
+      font.pointSize: SettingsService.font.size
+      color: SettingsService.colors.base05
 
-      highlightFollowsCurrentItem: true
-      highlightMoveDuration: 0
+      leftPadding: 5
+      rightPadding: 5
+      topPadding: 0
+      bottomPadding: 0
 
-      interactive: false
+      background: Rectangle {
+        implicitWidth: 150
+        color: SettingsService.colors.base01
+      }
+
+      onTextChanged: {
+        menuList.currentIndex = 0;
+      }
+
+      Keys.onEscapePressed: DmenuService.close()
+      Keys.onReturnPressed: root.submit()
+      Keys.onEnterPressed: root.submit()
+      Keys.onDownPressed: {
+        menuList.currentIndex = 0;
+      }
+      Keys.onRightPressed: {
+        if (menuList.currentIndex < 0) {
+          menuList.currentIndex = 0;
+        } else {
+          menuList.incrementCurrentIndex();
+        }
+      }
+      Keys.onLeftPressed: {
+        if (menuList.currentIndex < 0) {
+          menuList.currentIndex = 0;
+        } else {
+          menuList.decrementCurrentIndex();
+        }
+      }
+    }
+
+    ScrollView {
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+
+      clip: true
+
+      ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+      ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
       spacing: 0
 
-      WheelHandler {
-        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+      ListView {
+        id: menuList
+        model: root.filteredApplications
+        orientation: Qt.Horizontal
 
-        property int accumulated: 0
+        keyNavigationEnabled: true
 
-        onWheel: event => {
-          accumulated += event.angleDelta.y !== 0 ? event.angleDelta.y : event.angleDelta.x;
+        highlightFollowsCurrentItem: true
+        highlightMoveDuration: 0
 
-          while (accumulated <= -120) {
-            accumulated += 120;
-            menuList.incrementCurrentIndex();
-          }
-          while (accumulated >= 120) {
-            accumulated -= 120;
-            menuList.decrementCurrentIndex();
+        interactive: false
+
+        spacing: 0
+
+        WheelHandler {
+          acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+
+          property int accumulated: 0
+
+          onWheel: event => {
+            accumulated += event.angleDelta.y !== 0 ? event.angleDelta.y : event.angleDelta.x;
+
+            while (accumulated <= -120) {
+              accumulated += 120;
+              menuList.incrementCurrentIndex();
+            }
+            while (accumulated >= 120) {
+              accumulated -= 120;
+              menuList.decrementCurrentIndex();
+            }
           }
         }
-      }
 
-      delegate: ItemDelegate {
-        id: delegateRoot
-        required property int index
-        required property string modelData
+        delegate: ItemDelegate {
+          id: delegateRoot
+          required property int index
+          required property string modelData
 
-        anchors.verticalCenter: parent?.verticalCenter
+          anchors.verticalCenter: parent?.verticalCenter
 
-        padding: 0
-        background: null
+          padding: 0
+          background: null
 
-        focusPolicy: Qt.NoFocus
+          focusPolicy: Qt.NoFocus
 
-        onClicked: {
-          menuList.currentIndex = index;
-          DmenuService.execute(modelData);
-        }
+          onClicked: {
+            menuList.currentIndex = index;
+            DmenuService.execute(modelData);
+          }
 
-        contentItem: Rectangle {
-          implicitWidth: label.implicitWidth + SettingsService.spacing.horizontal
-          implicitHeight: label.implicitHeight + SettingsService.spacing.vertical
+          contentItem: Rectangle {
+            implicitWidth: label.implicitWidth + SettingsService.spacing.horizontal
+            implicitHeight: label.implicitHeight + SettingsService.spacing.vertical
 
-          color: delegateRoot.ListView.isCurrentItem
+            color: delegateRoot.ListView.isCurrentItem
             ? SettingsService.colors.base05
             : SettingsService.colors.base00
 
-          MesaText {
-            id: label
-            text: modelData
-            anchors.centerIn: parent
+            MesaText {
+              id: label
+              text: modelData
+              anchors.centerIn: parent
 
-            color: delegateRoot.ListView.isCurrentItem
+              color: delegateRoot.ListView.isCurrentItem
               ? SettingsService.colors.base00
               : SettingsService.colors.base05
-          }
-        }       
+            }
+          }       
+        }
       }
     }
+    MesaSeparator {}
   }
-  MesaSeparator {}
 }
