@@ -36,9 +36,9 @@ Rectangle {
       text: {
         if (!device) return "N/A"
 
-        if (device.type === DeviceType.Wifi) return getConnectedSsid()
+        if (device.type === DeviceType.Wifi) return getConnectedSsid() + " (wifi)"
 
-        return device.name
+        return device.name + " (wired)"
       }
     }
   }

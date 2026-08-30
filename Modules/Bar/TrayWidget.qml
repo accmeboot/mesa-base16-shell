@@ -18,6 +18,8 @@ RowLayout {
 
   onIsVisibleChanged: if (!trayRow.isVisible) trayMenu.close()
 
+  visible: Boolean(SystemTray.items.values.length)
+
   Repeater {
     model: SystemTray.items
 

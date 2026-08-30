@@ -49,7 +49,7 @@ Scope {
         Item { Layout.fillWidth: true }
 
         TrayWidget { id: tray }
-        MesaSeparator { visible: cpuWidget.visible }
+        MesaSeparator { visible: tray.visible }
 
         CpuWidget { id: cpuWidget }
         MesaSeparator { visible: cpuWidget.visible }
