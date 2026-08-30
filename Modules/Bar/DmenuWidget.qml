@@ -48,8 +48,6 @@ RowLayout {
     }
   }
 
-  MesaSeparator {}
-
   TextField {
     id: searchField
 

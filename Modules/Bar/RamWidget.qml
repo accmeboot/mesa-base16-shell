@@ -23,7 +23,7 @@ Rectangle {
 
     MesaText {
       text: "RAM"
-      color: total > 0 && used / total > 0.8 ? SettingsService.colors.base08 : SettingsService.colors.base0A
+      color: total > 0 && used / total > 0.8 ? SettingsService.colors.base08 : SettingsService.colors.base05
     }
 
     MesaText {

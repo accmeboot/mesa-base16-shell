@@ -20,7 +20,7 @@ Rectangle {
 
     MesaText {
       text: "NET"
-      color: SettingsService.colors.base0A
+      color: SettingsService.colors.base05
     }
 
     MesaText {

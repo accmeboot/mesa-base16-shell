@@ -22,7 +22,7 @@ Rectangle {
 
     MesaText {
       text: "CPU"
-      color: usage > 60 ? SettingsService.colors.base08 : SettingsService.colors.base0A
+      color: usage > 60 ? SettingsService.colors.base08 : SettingsService.colors.base05
     }
 
     MesaText {

@@ -32,7 +32,7 @@ Rectangle {
           return SettingsService.colors.base0B
         }
 
-        return SettingsService.colors.base0A
+        return SettingsService.colors.base05
       }
     }
 

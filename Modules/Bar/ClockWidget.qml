@@ -18,7 +18,7 @@ Rectangle {
 
     MesaText {
       text: "RTC"
-      color: SettingsService.colors.base0A
+      color: SettingsService.colors.base05
     }
 
     MesaText {
