@@ -41,7 +41,7 @@ RowLayout {
         anchors.centerIn: parent
 
         text: {
-          var appName = item.modelData.title || item.modelData.id;
+          var appName = item.modelData.title || item.modelData.tooltipTitle || item.modelData.id;
           const hasUnderscore = appName.includes("_")
 
           if (hasUnderscore) {
