@@ -41,7 +41,6 @@ Rectangle {
       id: closeText
       anchors.centerIn: parent
       text: "X"
-      color: SettingsService.colors.base00
     }
 
     MouseArea {
@@ -151,7 +150,7 @@ Rectangle {
 
             required property var modelData
 
-            color: SettingsService.colors.base0D
+            color: SettingsService.colors.base02
 
             implicitWidth: actionText.width + SettingsService.spacing.horizontal
             implicitHeight: actionText.implicitHeight + SettingsService.spacing.vertical
@@ -163,7 +162,7 @@ Rectangle {
 
               width: Math.min(implicitWidth, actionsFlow.width - SettingsService.spacing.horizontal)
 
-              color: SettingsService.colors.base00
+              color: SettingsService.colors.base05
               text: action.modelData.text || "OK" + " (" + action.modelData.identifier + ")"
               elide: Text.ElideRight
               textFormat: Text.StyledText
