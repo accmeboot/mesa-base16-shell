@@ -120,7 +120,7 @@ PopupWindow {
           readonly property bool highlighted: mouse.containsMouse
           readonly property color foreground: {
             if (!modelData.enabled) return SettingsService.colors.base03;
-            return SettingsService.colors.base05;
+            return highlighted ? SettingsService.colors.base00 : SettingsService.colors.base05;
           }
 
           Layout.fillWidth: true

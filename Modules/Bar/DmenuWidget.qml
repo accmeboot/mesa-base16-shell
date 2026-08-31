@@ -195,7 +195,10 @@ RowLayout {
               id: label
               text: modelData
               anchors.centerIn: parent
-              color: SettingsService.colors.base05
+
+              color: delegateRoot.ListView.isCurrentItem
+              ? SettingsService.colors.base00
+              : SettingsService.colors.base05
             }
           }       
         }
