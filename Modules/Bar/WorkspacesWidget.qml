@@ -29,7 +29,7 @@ RowLayout {
         id: label
         anchors.centerIn: parent
         text: modelData.name
-        color: modelData.focused ? SettingsService.colors.base00 : SettingsService.colors.base05
+        color: SettingsService.colors.base05
       }
 
 
@@ -43,9 +43,9 @@ RowLayout {
         width: 5
         height: 5
 
-        color: modelData.focused ? SettingsService.colors.base00 : "transparent"
+        color: modelData.focused ? SettingsService.colors.base05 : "transparent"
         border.width: 1
-        border.color: modelData.focused ? SettingsService.colors.base00 : SettingsService.colors.base05
+        border.color: SettingsService.colors.base05
       }
 
       MouseArea {

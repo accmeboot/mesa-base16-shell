@@ -164,7 +164,7 @@ Rectangle {
               width: Math.min(implicitWidth, actionsFlow.width - SettingsService.spacing.horizontal)
 
               color: SettingsService.colors.base00
-              text: action.modelData.text
+              text: action.modelData.text || "OK" + " (" + action.modelData.identifier + ")"
               elide: Text.ElideRight
               textFormat: Text.StyledText
             }
