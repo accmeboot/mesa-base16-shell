@@ -33,8 +33,8 @@ Scope {
       }
 
       margins {
-        top: SettingsService.spacing.vertical
-        right: SettingsService.spacing.vertical
+        top: ConfigService.spacing.vertical
+        right: ConfigService.spacing.vertical
       }
 
       ColumnLayout {

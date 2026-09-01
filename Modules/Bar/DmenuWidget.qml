@@ -39,10 +39,10 @@ RowLayout {
 
 
   Rectangle {
-    implicitWidth: toggleLabel.implicitWidth + SettingsService.spacing.horizontal
-    implicitHeight: toggleLabel.implicitHeight + SettingsService.spacing.vertical
+    implicitWidth: toggleLabel.implicitWidth + ConfigService.spacing.horizontal
+    implicitHeight: toggleLabel.implicitHeight + ConfigService.spacing.vertical
 
-    color: SettingsService.colors.base00
+    color: ConfigService.colors.base00
 
     MesaText {
       id: toggleLabel
@@ -50,7 +50,7 @@ RowLayout {
       anchors.centerIn: parent
 
       text: DmenuService.isOpen ? "X" : ">"
-      color: SettingsService.colors.base05
+      color: ConfigService.colors.base05
     }
 
     MouseArea {
@@ -82,9 +82,9 @@ RowLayout {
 
       focus: true
 
-      font.family: SettingsService.font.name
-      font.pointSize: SettingsService.font.size
-      color: SettingsService.colors.base05
+      font.family: ConfigService.font.name
+      font.pointSize: ConfigService.font.size
+      color: ConfigService.colors.base05
 
       leftPadding: 5
       rightPadding: 5
@@ -93,7 +93,7 @@ RowLayout {
 
       background: Rectangle {
         implicitWidth: 150
-        color: SettingsService.colors.base01
+        color: ConfigService.colors.base01
       }
 
       onTextChanged: {
@@ -184,12 +184,12 @@ RowLayout {
           }
 
           contentItem: Rectangle {
-            implicitWidth: label.implicitWidth + SettingsService.spacing.horizontal
-            implicitHeight: label.implicitHeight + SettingsService.spacing.vertical
+            implicitWidth: label.implicitWidth + ConfigService.spacing.horizontal
+            implicitHeight: label.implicitHeight + ConfigService.spacing.vertical
 
             color: delegateRoot.ListView.isCurrentItem
-            ? SettingsService.colors.base0D
-            : SettingsService.colors.base00
+            ? ConfigService.colors.base0D
+            : ConfigService.colors.base00
 
             MesaText {
               id: label
@@ -197,8 +197,8 @@ RowLayout {
               anchors.centerIn: parent
 
               color: delegateRoot.ListView.isCurrentItem
-              ? SettingsService.colors.base00
-              : SettingsService.colors.base05
+              ? ConfigService.colors.base00
+              : ConfigService.colors.base05
             }
           }       
         }

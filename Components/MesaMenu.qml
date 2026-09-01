@@ -19,8 +19,8 @@ PopupWindow {
   property bool settled: false
   readonly property bool ready: opener.children.values.length > 0
 
-  readonly property int rowPadding: Math.round(SettingsService.spacing.vertical / 2)
-  readonly property int indicatorSize: Math.round(SettingsService.font.size * 1.5)
+  readonly property int rowPadding: Math.round(ConfigService.spacing.vertical / 2)
+  readonly property int indicatorSize: Math.round(ConfigService.font.size * 1.5)
   readonly property bool hasIndicators: opener.children.values.some(entry => entry.icon !== "" || entry.buttonType !== QsMenuButtonType.None)
 
   visible: root.pendingOpen && root.ready && root.settled
@@ -93,10 +93,10 @@ PopupWindow {
     implicitWidth: entries.implicitWidth + border.width * 2
     implicitHeight: entries.implicitHeight + border.width * 2
 
-    color: SettingsService.colors.base00
+    color: ConfigService.colors.base00
 
     border.width: 2
-    border.color: SettingsService.colors.base02
+    border.color: ConfigService.colors.base02
 
     focus: true
     Keys.onEscapePressed: root.closeAll()
@@ -119,18 +119,18 @@ PopupWindow {
 
           readonly property bool highlighted: mouse.containsMouse
           readonly property color foreground: {
-            if (!modelData.enabled) return SettingsService.colors.base03;
-            return highlighted ? SettingsService.colors.base00 : SettingsService.colors.base05;
+            if (!modelData.enabled) return ConfigService.colors.base03;
+            return highlighted ? ConfigService.colors.base00 : ConfigService.colors.base05;
           }
 
           Layout.fillWidth: true
 
-          implicitWidth: modelData.isSeparator ? 0 : content.implicitWidth + SettingsService.spacing.horizontal
+          implicitWidth: modelData.isSeparator ? 0 : content.implicitWidth + ConfigService.spacing.horizontal
           implicitHeight: modelData.isSeparator ? 1 : content.implicitHeight + root.rowPadding * 2
 
           color: {
-            if (modelData.isSeparator) return SettingsService.colors.base01;
-            return highlighted ? SettingsService.colors.base0D : SettingsService.colors.base00;
+            if (modelData.isSeparator) return ConfigService.colors.base01;
+            return highlighted ? ConfigService.colors.base0D : ConfigService.colors.base00;
           }
 
           function openSubmenu(): void {
@@ -165,10 +165,10 @@ PopupWindow {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            anchors.leftMargin: SettingsService.spacing.horizontal / 2
-            anchors.rightMargin: SettingsService.spacing.horizontal / 2
+            anchors.leftMargin: ConfigService.spacing.horizontal / 2
+            anchors.rightMargin: ConfigService.spacing.horizontal / 2
 
-            spacing: SettingsService.spacing.horizontal / 2
+            spacing: ConfigService.spacing.horizontal / 2
 
             Item {
               visible: root.hasIndicators

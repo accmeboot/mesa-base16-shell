@@ -13,7 +13,7 @@ Singleton {
   readonly property alias spacing: adapter.spacing
 
   IpcHandler {
-    target: "settings"
+    target: "config"
 
     function reload(): void {
       view.reload();
@@ -23,7 +23,7 @@ Singleton {
   FileView {
     id: view
 
-    path: Qt.resolvedUrl("../settings.json")
+    path: Qt.resolvedUrl("../config.json")
     watchChanges: true
     onFileChanged: reload()
 

@@ -7,7 +7,7 @@ import Quickshell.Io
 Singleton {
   id: root
 
-  readonly property bool persistent: SettingsService.workspaces.persistent
+  readonly property bool persistent: ConfigService.workspaces.persistent
   readonly property int count: 10
 
   property string mode: "defulat" // resize

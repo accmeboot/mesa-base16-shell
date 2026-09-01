@@ -20,21 +20,21 @@ RowLayout {
 
       visible: modelData.monitor === root.screen.name
 
-      implicitWidth: label.implicitWidth + SettingsService.spacing.horizontal
-      implicitHeight: label.implicitHeight + SettingsService.spacing.vertical
+      implicitWidth: label.implicitWidth + ConfigService.spacing.horizontal
+      implicitHeight: label.implicitHeight + ConfigService.spacing.vertical
 
-      color: modelData.focused ? SettingsService.colors.base0D : (modelData.urgent ? SettingsService.colors.base08 : SettingsService.colors.base00)
+      color: modelData.focused ? ConfigService.colors.base0D : (modelData.urgent ? ConfigService.colors.base08 : ConfigService.colors.base00)
 
       MesaText {
         id: label
         anchors.centerIn: parent
         text: modelData.name
-        color: modelData.focused ? SettingsService.colors.base00 : SettingsService.colors.base05
+        color: modelData.focused ? ConfigService.colors.base00 : ConfigService.colors.base05
       }
 
 
       Rectangle {
-        visible: modelData.occupied && SettingsService.workspaces.persistent
+        visible: modelData.occupied && ConfigService.workspaces.persistent
 
         anchors.top: parent.top
         anchors.left: parent.left
@@ -43,9 +43,9 @@ RowLayout {
         width: 5
         height: 5
 
-        color: modelData.focused ? SettingsService.colors.base00 : "transparent"
+        color: modelData.focused ? ConfigService.colors.base00 : "transparent"
         border.width: 1
-        border.color: modelData.focused ? SettingsService.colors.base00 : SettingsService.colors.base05
+        border.color: modelData.focused ? ConfigService.colors.base00 : ConfigService.colors.base05
       }
 
       MouseArea {

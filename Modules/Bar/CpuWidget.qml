@@ -9,10 +9,10 @@ import qs.Services
 Rectangle {
   id: root
 
-  color: SettingsService.colors.base00
+  color: ConfigService.colors.base00
 
-  implicitWidth: cpuRow.implicitWidth + SettingsService.spacing.horizontal
-  implicitHeight: cpuRow.implicitHeight + SettingsService.spacing.vertical
+  implicitWidth: cpuRow.implicitWidth + ConfigService.spacing.horizontal
+  implicitHeight: cpuRow.implicitHeight + ConfigService.spacing.vertical
 
   property int usage: 0
 
@@ -22,7 +22,7 @@ Rectangle {
 
     MesaText {
       text: "CPU"
-      color: usage > 60 ? SettingsService.colors.base08 : SettingsService.colors.base05
+      color: usage > 60 ? ConfigService.colors.base08 : ConfigService.colors.base05
     }
 
     MesaText {

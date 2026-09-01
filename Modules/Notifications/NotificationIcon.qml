@@ -19,6 +19,6 @@ Item {
     ColorOverlay {
         anchors.fill: parent
         source: img
-        color: SettingsService.colors.base05
+        color: ConfigService.colors.base05
     }
 }

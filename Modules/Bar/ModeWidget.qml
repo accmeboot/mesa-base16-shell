@@ -7,7 +7,7 @@ import qs.Components
 Rectangle {
   visible: SwayService.mode === 'resize'
 
-  color: SettingsService.colors.base0A
+  color: ConfigService.colors.base0A
 
   implicitWidth: label.implicitWidth + 10
   implicitHeight: label.implicitHeight + 5
@@ -16,7 +16,7 @@ Rectangle {
     id: label
     anchors.centerIn: parent
     text: SwayService.mode
-    color: SettingsService.colors.base00
+    color: ConfigService.colors.base00
   }
 }
 

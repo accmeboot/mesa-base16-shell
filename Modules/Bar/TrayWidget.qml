@@ -30,10 +30,10 @@ RowLayout {
 
       visible: trayRow.isVisible
 
-      implicitWidth: label.implicitWidth + SettingsService.spacing.horizontal
-      implicitHeight: label.implicitHeight + SettingsService.spacing.vertical
+      implicitWidth: label.implicitWidth + ConfigService.spacing.horizontal
+      implicitHeight: label.implicitHeight + ConfigService.spacing.vertical
 
-      color: SettingsService.colors.base00
+      color: ConfigService.colors.base00
 
       MesaText {
         id: label
@@ -74,10 +74,10 @@ RowLayout {
   }
 
   Rectangle {
-    implicitWidth: toggleLabel.implicitWidth + SettingsService.spacing.horizontal
-    implicitHeight: toggleLabel.implicitHeight + SettingsService.spacing.vertical
+    implicitWidth: toggleLabel.implicitWidth + ConfigService.spacing.horizontal
+    implicitHeight: toggleLabel.implicitHeight + ConfigService.spacing.vertical
 
-    color: SettingsService.colors.base00
+    color: ConfigService.colors.base00
 
     MesaText {
       id: toggleLabel
@@ -85,7 +85,7 @@ RowLayout {
       anchors.centerIn: parent
 
       text: trayRow.isVisible ? "X" : "<"
-      color: SettingsService.colors.base05
+      color: ConfigService.colors.base05
     }
 
     MouseArea {

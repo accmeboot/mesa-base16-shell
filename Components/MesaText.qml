@@ -3,8 +3,8 @@ import QtQuick
 import qs.Services
 
 Text {
-  font.family: SettingsService.font.name
-  font.pointSize: SettingsService.font.size
-  color: SettingsService.colors.base05
+  font.family: ConfigService.font.name
+  font.pointSize: ConfigService.font.size
+  color: ConfigService.colors.base05
   renderType: Text.NativeRendering
 }

@@ -8,5 +8,5 @@ Rectangle {
   implicitWidth: 2
   Layout.fillHeight: true
 
-  color: SettingsService.colors.base01
+  color: ConfigService.colors.base01
 }

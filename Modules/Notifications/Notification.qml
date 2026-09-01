@@ -9,7 +9,7 @@ import qs.Components
 
 Rectangle {
   required property var modelData
-  readonly property int padding: SettingsService.spacing.vertical
+  readonly property int padding: ConfigService.spacing.vertical
   readonly property int inset: root.border.width + root.padding
 
   id: root
@@ -19,9 +19,9 @@ Rectangle {
 
   clip: true
 
-  color: SettingsService.colors.base00
+  color: ConfigService.colors.base00
 
-  border.color: SettingsService.colors.base02
+  border.color: ConfigService.colors.base02
   border.width: 2
 
   Rectangle {
@@ -35,7 +35,7 @@ Rectangle {
     implicitWidth: closeText.implicitWidth + root.padding * 2
     implicitHeight: closeText.implicitHeight
 
-    color: SettingsService.colors.base08
+    color: ConfigService.colors.base08
 
     MesaText {
       id: closeText
@@ -75,14 +75,14 @@ Rectangle {
       Layout.fillWidth: true
       Layout.alignment: Qt.AlignVCenter
 
-      spacing: SettingsService.spacing.vertical / 2
+      spacing: ConfigService.spacing.vertical / 2
 
       RowLayout {
         id: notificationHeader
 
         Layout.fillWidth: true
 
-        spacing: SettingsService.spacing.horizontal
+        spacing: ConfigService.spacing.horizontal
 
         MesaText {
           Layout.fillWidth: true
@@ -92,11 +92,11 @@ Rectangle {
           color: {
             switch (modelData.urgency) {
               case NotificationUrgency.Critical:
-              return SettingsService.colors.base08;
+              return ConfigService.colors.base08;
               case NotificationUrgency.Normal:
-              return SettingsService.colors.base05;
+              return ConfigService.colors.base05;
               default:
-              return SettingsService.colors.base05;
+              return ConfigService.colors.base05;
             }
           }
           font.bold: true
@@ -136,9 +136,9 @@ Rectangle {
         id: actionsFlow
 
         Layout.fillWidth: true
-        Layout.topMargin: SettingsService.spacing.vertical
+        Layout.topMargin: ConfigService.spacing.vertical
 
-        spacing: SettingsService.spacing.vertical
+        spacing: ConfigService.spacing.vertical
 
         visible: Boolean(modelData.actions.count)
 
@@ -150,19 +150,19 @@ Rectangle {
 
             required property var modelData
 
-            color: SettingsService.colors.base02
+            color: ConfigService.colors.base02
 
-            implicitWidth: actionText.width + SettingsService.spacing.horizontal
-            implicitHeight: actionText.implicitHeight + SettingsService.spacing.vertical
+            implicitWidth: actionText.width + ConfigService.spacing.horizontal
+            implicitHeight: actionText.implicitHeight + ConfigService.spacing.vertical
 
             MesaText {
               id: actionText
 
               anchors.centerIn: parent
 
-              width: Math.min(implicitWidth, actionsFlow.width - SettingsService.spacing.horizontal)
+              width: Math.min(implicitWidth, actionsFlow.width - ConfigService.spacing.horizontal)
 
-              color: SettingsService.colors.base05
+              color: ConfigService.colors.base05
               text: action.modelData.text || "OK" + " (" + action.modelData.identifier + ")"
               elide: Text.ElideRight
               textFormat: Text.StyledText

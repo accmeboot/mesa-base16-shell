@@ -15,7 +15,7 @@ Scope {
       required property var modelData
       screen: modelData
 
-      color: SettingsService.colors.base00
+      color: ConfigService.colors.base00
 
       WlrLayershell.keyboardFocus: {
         if (DmenuService.isOpen) return WlrKeyboardFocus.Exclusive;

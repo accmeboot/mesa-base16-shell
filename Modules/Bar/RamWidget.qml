@@ -9,10 +9,10 @@ import qs.Services
 Rectangle {
   id: root
 
-  color: SettingsService.colors.base00
+  color: ConfigService.colors.base00
 
-  implicitWidth: ramRow.implicitWidth + SettingsService.spacing.horizontal
-  implicitHeight: ramRow.implicitHeight + SettingsService.spacing.vertical
+  implicitWidth: ramRow.implicitWidth + ConfigService.spacing.horizontal
+  implicitHeight: ramRow.implicitHeight + ConfigService.spacing.vertical
 
   property real used: 0
   property real total: 0
@@ -23,7 +23,7 @@ Rectangle {
 
     MesaText {
       text: "RAM"
-      color: total > 0 && used / total > 0.8 ? SettingsService.colors.base08 : SettingsService.colors.base05
+      color: total > 0 && used / total > 0.8 ? ConfigService.colors.base08 : ConfigService.colors.base05
     }
 
     MesaText {

@@ -7,10 +7,10 @@ import qs.Components
 import qs.Services
 
 Rectangle {
-  color: SettingsService.colors.base00
+  color: ConfigService.colors.base00
 
-  implicitWidth: networkRow.implicitWidth + SettingsService.spacing.horizontal
-  implicitHeight: networkRow.implicitHeight + SettingsService.spacing.vertical
+  implicitWidth: networkRow.implicitWidth + ConfigService.spacing.horizontal
+  implicitHeight: networkRow.implicitHeight + ConfigService.spacing.vertical
 
   property var device: Networking.devices.values.find((d) => d.connected)
 
@@ -20,7 +20,7 @@ Rectangle {
 
     MesaText {
       text: "NET"
-      color: SettingsService.colors.base05
+      color: ConfigService.colors.base05
     }
 
     MesaText {
