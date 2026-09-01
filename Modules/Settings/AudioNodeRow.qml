@@ -48,6 +48,8 @@ Item {
       opacity: root.isDefault ? 1 : 0
 
       text: "*"
+
+      color: ConfigService.colors.base0D
     }
 
     MesaText {
