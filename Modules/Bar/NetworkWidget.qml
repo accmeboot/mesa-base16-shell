@@ -7,6 +7,8 @@ import qs.Components
 import qs.Services
 
 Rectangle {
+  id: root
+
   color: ConfigService.colors.base00
 
   implicitWidth: networkRow.implicitWidth + ConfigService.spacing.horizontal
@@ -14,33 +16,40 @@ Rectangle {
 
   property var device: Networking.devices.values.find((d) => d.connected)
 
+  readonly property string ssid: {
+    if (!device || device.type !== DeviceType.Wifi) return ""
+
+    const connectedWifi = device.networks.values
+      .find((n) => n.state === ConnectionState.Connected)
+
+    return connectedWifi ? connectedWifi.name : ""
+  }
+
+  readonly property bool connected: {
+    if (!device) return false
+
+    if (device.type === DeviceType.Wifi) return ssid !== ""
+
+    return true
+  }
+
   RowLayout {
     id: networkRow
     anchors.centerIn: parent
 
     MesaText {
       text: "NET"
-      color: ConfigService.colors.base05
+      color: ColorService.status(root.connected)
     }
 
     MesaText {
-      function getConnectedSsid() {
-        const connectedWifi = device.networks.values
-          .find((n) => n.state === ConnectionState.Connected)
-
-        if (connectedWifi) return connectedWifi.name
-
-        return "Disconnected"
-      }
-
       text: {
-        if (!device) return "N/A"
+        if (!root.device) return "N/A"
 
-        if (device.type === DeviceType.Wifi) return getConnectedSsid() + " (wifi)"
+        if (root.device.type === DeviceType.Wifi) return root.connected ? root.ssid + " (wifi)" : "Disconnected"
 
-        return device.name + " (wired)"
+        return root.device.name + " (wired)"
       }
     }
   }
 }
-

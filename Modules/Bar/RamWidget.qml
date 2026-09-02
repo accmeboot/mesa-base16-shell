@@ -17,13 +17,15 @@ Rectangle {
   property real used: 0
   property real total: 0
 
+  readonly property real usage: total > 0 ? used / total * 100 : 0
+
   RowLayout {
     id: ramRow
     anchors.centerIn: parent
 
     MesaText {
       text: "RAM"
-      color: total > 0 && used / total > 0.8 ? ConfigService.colors.base08 : ConfigService.colors.base05
+      color: ColorService.threshold(root.usage, 50, 80)
     }
 
     MesaText {

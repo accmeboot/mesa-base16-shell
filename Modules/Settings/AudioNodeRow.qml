@@ -45,55 +45,40 @@ Item {
     anchors.rightMargin: ConfigService.spacing.horizontal / 2
     spacing: 0
     RowLayout {
-      RowLayout {
+      Layout.fillWidth: true
+      spacing: 0
+      MesaText {
+        id: label
         Layout.fillWidth: true
-        spacing: 0
-        MesaText {
-          id: label
-          Layout.fillWidth: true
-          Layout.minimumWidth: 0
-          Layout.maximumWidth: Math.ceil(label.implicitWidth)
-          text: root.displayName
-          elide: Text.ElideRight
-          MouseArea {
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            width: label.contentWidth
-            enabled: root.selectable
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            onClicked: root.activated()
-          }
-        }
-        MesaText {
-          visible: root.selectable
-          opacity: root.isDefault ? 1 : 0
-          text: "*"
-          color: ConfigService.colors.base0D
-        }
-        Item {
-          Layout.fillWidth: true
-        }
-      }
-
-      Rectangle {
-        id: mute
-        Layout.preferredWidth: root.iconSize + ConfigService.spacing.horizontal
-        Layout.preferredHeight: root.iconSize + ConfigService.spacing.vertical
-        Layout.alignment: Qt.AlignVCenter
-        color: ConfigService.colors.base02
-        MesaIcon {
-          anchors.centerIn: parent
-          name: root.node.audio.muted ? root.mutedIcon : root.icon
-          size: root.iconSize
-        }
+        Layout.minimumWidth: 0
+        Layout.maximumWidth: Math.ceil(label.implicitWidth)
+        text: root.displayName
+        elide: Text.ElideRight
         MouseArea {
-          anchors.fill: parent
+          anchors.left: parent.left
+          anchors.top: parent.top
+          anchors.bottom: parent.bottom
+          width: label.contentWidth
+          enabled: root.selectable
+          visible: root.selectable
           hoverEnabled: true
           cursorShape: Qt.PointingHandCursor
-          onClicked: root.node.audio.muted = !root.node.audio.muted
+          onClicked: root.activated()
         }
+      }
+      MesaText {
+        visible: root.selectable
+        opacity: root.isDefault ? 1 : 0
+        text: " (default)"
+      }
+      MesaText {
+        visible: root.selectable
+        opacity: root.isDefault ? 1 : 0
+        text: "*"
+        color: ConfigService.colors.base0D
+      }
+      Item {
+        Layout.fillWidth: true
       }
     }
 
@@ -111,6 +96,24 @@ Item {
         text: `${Math.round(volume.value * 100)}%`
         horizontalAlignment: Text.AlignRight
         color: ConfigService.colors.base04
+      }
+      Rectangle {
+        id: mute
+        Layout.preferredWidth: root.iconSize + ConfigService.spacing.horizontal
+        Layout.preferredHeight: root.iconSize + ConfigService.spacing.vertical
+        Layout.alignment: Qt.AlignVCenter
+        color: ConfigService.colors.base02
+        MesaIcon {
+          anchors.centerIn: parent
+          name: root.node.audio.muted ? root.mutedIcon : root.icon
+          size: root.iconSize
+        }
+        MouseArea {
+          anchors.fill: parent
+          hoverEnabled: true
+          cursorShape: Qt.PointingHandCursor
+          onClicked: root.node.audio.muted = !root.node.audio.muted
+        }
       }
     }
   }

@@ -22,7 +22,7 @@ Rectangle {
 
     MesaText {
       text: "CPU"
-      color: usage > 60 ? ConfigService.colors.base08 : ConfigService.colors.base05
+      color: ColorService.threshold(root.usage, 20, 60)
     }
 
     MesaText {

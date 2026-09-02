@@ -7,6 +7,8 @@ import qs.Components
 import qs.Services
 
 Rectangle {
+  id: root
+
   color: ConfigService.colors.base00
 
   implicitWidth: batteryRow.implicitWidth + ConfigService.spacing.horizontal
@@ -17,27 +19,34 @@ Rectangle {
 
   visible: device.isLaptopBattery
 
+  readonly property string status: {
+    switch (device.state) {
+    case UPowerDeviceState.Charging:
+    case UPowerDeviceState.PendingCharge:
+      return "charging"
+    case UPowerDeviceState.FullyCharged:
+      return "full"
+    case UPowerDeviceState.Empty:
+      return "empty"
+    case UPowerDeviceState.Discharging:
+    case UPowerDeviceState.PendingDischarge:
+      return "on battery"
+    }
+
+    return "unknown"
+  }
+
   RowLayout {
     id: batteryRow
     anchors.centerIn: parent
 
     MesaText {
       text: "BAT"
-      color: {
-        if (percentage <= 20) {
-          return ConfigService.colors.base08
-        }
-
-        if (device.state === UPowerDeviceState.Unknown || device.state === UPowerDeviceState.PendingCharge) {
-          return ConfigService.colors.base0B
-        }
-
-        return ConfigService.colors.base05
-      }
+      color: ColorService.threshold(root.percentage, 50, 20)
     }
 
     MesaText {
-      text: percentage + "%"
+      text: root.percentage + "% (" + root.status + ")"
     }
   }
 }
