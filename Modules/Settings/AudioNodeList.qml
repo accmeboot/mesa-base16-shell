@@ -14,6 +14,8 @@ Rectangle {
   property PwNode defaultNode: null
   property bool selectable: true
   property int visibleRows: 3
+  property string icon: 'volume'
+  property string mutedIcon: 'volume-mute'
 
   readonly property int padding: ConfigService.spacing.vertical
 
@@ -48,6 +50,8 @@ Rectangle {
         node: modelData
         isDefault: root.defaultNode === modelData
         selectable: root.selectable
+        icon: root.icon
+        mutedIcon: root.mutedIcon
 
         onActivated: root.nodeActivated(modelData)
       }

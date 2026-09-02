@@ -10,6 +10,8 @@ Item {
   required property PwNode node
   property bool isDefault: false
   property bool selectable: true
+  property string icon: 'volume'
+  property string mutedIcon: 'volume-mute'
 
   readonly property string displayName: {
     const node = root.node;
@@ -83,7 +85,7 @@ Item {
         color: ConfigService.colors.base02
         MesaIcon {
           anchors.centerIn: parent
-          name: root.node.audio.muted ? 'volume-mute' : 'volume'
+          name: root.node.audio.muted ? root.mutedIcon : root.icon
           size: root.iconSize
         }
         MouseArea {

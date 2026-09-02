@@ -42,6 +42,9 @@ ColumnLayout {
     model: root.sources
     defaultNode: Pipewire.defaultAudioSource
 
+    icon: "microphone"
+    mutedIcon: "microphone-off"
+
     onNodeActivated: node => Pipewire.preferredDefaultAudioSource = node
   }
 

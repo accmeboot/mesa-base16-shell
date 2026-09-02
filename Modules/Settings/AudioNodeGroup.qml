@@ -15,6 +15,8 @@ ColumnLayout {
   property alias defaultNode: list.defaultNode
   property alias selectable: list.selectable
   property alias visibleRows: list.visibleRows
+  property alias icon: list.icon
+  property alias mutedIcon: list.mutedIcon
 
   signal nodeActivated(PwNode node)
 
