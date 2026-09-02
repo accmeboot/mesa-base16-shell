@@ -41,6 +41,7 @@ Rectangle {
       id: closeText
       anchors.centerIn: parent
       text: "X"
+      color: ConfigService.colors.base00
     }
 
     MouseArea {
