@@ -63,10 +63,13 @@ Rectangle {
 
     spacing: root.padding
 
-    NotificationIcon {
+    MesaIcon {
       id: notificationIcon
 
       Layout.alignment: Qt.AlignVCenter
+
+      name: 'notification'
+      size: Math.round(ConfigService.font.size * 4)
     }
 
     ColumnLayout {

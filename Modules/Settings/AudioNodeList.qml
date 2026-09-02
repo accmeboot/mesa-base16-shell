@@ -13,7 +13,7 @@ Rectangle {
 
   property PwNode defaultNode: null
   property bool selectable: true
-  property int visibleRows: 4
+  property int visibleRows: 3
 
   readonly property int padding: ConfigService.spacing.vertical
 

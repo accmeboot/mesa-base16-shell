@@ -6,7 +6,7 @@ import qs.Services
 Slider {
   id: root
 
-  property int handleSize: Math.round(ConfigService.font.size * 1.5)
+  property int handleSize: Math.round(ConfigService.font.size * 1.0)
 
   from: 0
   to: 1
@@ -42,7 +42,7 @@ Slider {
 
     radius: width / 2
 
-    color: ConfigService.colors.base0D
+    color: ConfigService.colors.base05
   }
 
   HoverHandler {
