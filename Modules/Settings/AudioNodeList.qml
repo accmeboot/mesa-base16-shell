@@ -29,32 +29,33 @@ Rectangle {
 
   color: ConfigService.colors.base01
 
-  ScrollView {
+  ListView {
+    id: view
+
+    readonly property real rowHeight: count > 0 ? contentHeight / count : 0
+
     anchors.fill: parent
     anchors.margins: root.padding
 
     clip: true
+    boundsBehavior: Flickable.StopAtBounds
 
-    ListView {
-      id: view
+    ScrollBar.vertical: ScrollBar {
+      policy: view.count > root.visibleRows ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+    }
 
-      readonly property real rowHeight: count > 0 ? contentHeight / count : 0
+    delegate: AudioNodeRow {
+      required property PwNode modelData
 
-      boundsBehavior: Flickable.StopAtBounds
+      width: ListView.view.width
 
-      delegate: AudioNodeRow {
-        required property PwNode modelData
+      node: modelData
+      isDefault: root.defaultNode === modelData
+      selectable: root.selectable
+      icon: root.icon
+      mutedIcon: root.mutedIcon
 
-        width: ListView.view.width
-
-        node: modelData
-        isDefault: root.defaultNode === modelData
-        selectable: root.selectable
-        icon: root.icon
-        mutedIcon: root.mutedIcon
-
-        onActivated: root.nodeActivated(modelData)
-      }
+      onActivated: root.nodeActivated(modelData)
     }
   }
 }

@@ -16,7 +16,7 @@ Item {
   readonly property string displayName: {
     const node = root.node;
 
-    if (!node.isStream) return node.nickname || node.name || node.description;
+    if (!node.isStream) return node.nickname || node.description || node.name;
 
     const application = node.properties["application.name"] || node.name;
     const media = node.properties["media.name"];
