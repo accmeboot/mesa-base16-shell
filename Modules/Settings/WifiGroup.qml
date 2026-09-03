@@ -133,19 +133,20 @@ ListView {
           anchors.fill: parent
           spacing: ConfigService.spacing.horizontal / 2
 
+          MesaIcon {
+            Layout.alignment: Qt.AlignVCenter
+            visible: card.modelData.connected
+            name: "dot"
+            color: ConfigService.colors.base0B
+            size: ConfigService.font.size * 0.5
+          }
+
           MesaText {
             id: ssid
             Layout.fillWidth: true
             Layout.maximumWidth: Math.ceil(ssid.implicitWidth)
             text: card.modelData.name
             elide: Text.ElideRight
-          }
-
-          MesaIcon {
-            Layout.alignment: Qt.AlignVCenter
-            visible: card.modelData.connected
-            name: "dot"
-            color: ConfigService.colors.base0B
           }
 
           Item {

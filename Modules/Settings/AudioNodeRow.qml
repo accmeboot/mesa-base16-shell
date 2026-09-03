@@ -45,6 +45,14 @@ Item {
     RowLayout {
       Layout.fillWidth: true
       spacing: 0
+      MesaIcon {
+        Layout.alignment: Qt.AlignVCenter
+        Layout.rightMargin: ConfigService.spacing.horizontal / 2
+        visible: root.selectable && root.isDefault
+        name: "dot"
+        color: ConfigService.colors.base0B
+        size: ConfigService.font.size * 0.5
+      }
       MesaText {
         id: label
         Layout.fillWidth: true
@@ -63,13 +71,6 @@ Item {
           cursorShape: Qt.PointingHandCursor
           onClicked: root.activated()
         }
-      }
-      MesaIcon {
-        Layout.alignment: Qt.AlignVCenter
-        Layout.leftMargin: ConfigService.spacing.horizontal / 2
-        visible: root.selectable && root.isDefault
-        name: "dot"
-        color: ConfigService.colors.base0B
       }
       Item {
         Layout.fillWidth: true
