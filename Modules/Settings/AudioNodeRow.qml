@@ -64,16 +64,12 @@ Item {
           onClicked: root.activated()
         }
       }
-      MesaText {
-        visible: root.selectable
-        opacity: root.isDefault ? 1 : 0
-        text: " (default)"
-      }
-      MesaText {
-        visible: root.selectable
-        opacity: root.isDefault ? 1 : 0
-        text: "*"
-        color: ConfigService.colors.base0D
+      MesaIcon {
+        Layout.alignment: Qt.AlignVCenter
+        Layout.leftMargin: ConfigService.spacing.horizontal / 2
+        visible: root.selectable && root.isDefault
+        name: "dot"
+        color: ConfigService.colors.base0B
       }
       Item {
         Layout.fillWidth: true

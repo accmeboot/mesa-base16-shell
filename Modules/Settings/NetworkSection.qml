@@ -30,7 +30,25 @@ ColumnLayout {
     }
   }
 
-  Item {
+  ColumnLayout {
+    Layout.fillWidth: true
     Layout.fillHeight: true
+    spacing: ConfigService.spacing.vertical
+
+    MesaText {
+      text: "Wifi"
+      font.bold: true
+      color: ConfigService.colors.base04
+    }
+
+    MesaText {
+      visible: wifi.count === 0
+      text: "No networks"
+      color: ConfigService.colors.base03
+    }
+
+    WifiGroup {
+      id: wifi
+    }
   }
 }
