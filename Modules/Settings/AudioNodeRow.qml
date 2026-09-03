@@ -26,8 +26,6 @@ Item {
 
   signal activated
 
-  readonly property int iconSize: Math.round(ConfigService.font.size * 1.5)
-
   implicitHeight: content.implicitHeight + ConfigService.spacing.vertical
 
   TextMetrics {
@@ -97,23 +95,10 @@ Item {
         horizontalAlignment: Text.AlignRight
         color: ConfigService.colors.base04
       }
-      Rectangle {
-        id: mute
-        Layout.preferredWidth: root.iconSize + ConfigService.spacing.horizontal
-        Layout.preferredHeight: root.iconSize + ConfigService.spacing.vertical
+      MesaButton {
         Layout.alignment: Qt.AlignVCenter
-        color: ConfigService.colors.base02
-        MesaIcon {
-          anchors.centerIn: parent
-          name: root.node.audio.muted ? root.mutedIcon : root.icon
-          size: root.iconSize
-        }
-        MouseArea {
-          anchors.fill: parent
-          hoverEnabled: true
-          cursorShape: Qt.PointingHandCursor
-          onClicked: root.node.audio.muted = !root.node.audio.muted
-        }
+        icon: root.node.audio.muted ? root.mutedIcon : root.icon
+        onClicked: root.node.audio.muted = !root.node.audio.muted
       }
     }
   }

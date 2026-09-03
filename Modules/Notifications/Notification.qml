@@ -149,37 +149,17 @@ Rectangle {
         Repeater {
           model: modelData.actions
 
-          Rectangle {
+          MesaButton {
             id: action
 
             required property var modelData
 
-            color: ConfigService.colors.base02
+            maximumContentWidth: actionsFlow.width - ConfigService.spacing.horizontal
 
-            implicitWidth: actionText.width + ConfigService.spacing.horizontal
-            implicitHeight: actionText.implicitHeight + ConfigService.spacing.vertical
+            text: action.modelData.text || "OK" + " (" + action.modelData.identifier + ")"
 
-            MesaText {
-              id: actionText
-
-              anchors.centerIn: parent
-
-              width: Math.min(implicitWidth, actionsFlow.width - ConfigService.spacing.horizontal)
-
-              color: ConfigService.colors.base05
-              text: action.modelData.text || "OK" + " (" + action.modelData.identifier + ")"
-              elide: Text.ElideRight
-              textFormat: Text.StyledText
-            }
-
-            MouseArea {
-              anchors.fill: parent
-              cursorShape: Qt.PointingHandCursor
-              hoverEnabled: true
-
-              onClicked: {
-                NotificationsService.invokeAction(root.modelData.id, action.modelData.id);
-              }
+            onClicked: {
+              NotificationsService.invokeAction(root.modelData.id, action.modelData.id);
             }
           }
         }
