@@ -11,22 +11,18 @@ A minimal status bar, notification daemon and settings panel for
 | --- | --- |
 | [Quickshell](https://github.com/outfoxxed/quickshell) | The runtime the whole shell is built on |
 | `qt6.qt5compat` | `Qt5Compat.GraphicalEffects`, used to recolour the SVG icons |
-| Sway (or i3) | Workspaces and binding mode, read over the Sway/i3 IPC socket |
-| A `wlr-layer-shell` compositor | The bar and notifications are layer-shell surfaces |
+| Sway | Workspaces and binding mode over the Sway IPC socket; the bar and notifications are `wlr-layer-shell` surfaces |
 | UPower | Battery widget and the About section's battery details |
 | PipeWire | Audio section: sinks, sources, playback and recording streams |
 | NetworkManager | Network widget and the Wi-Fi / Ethernet sections |
 | BlueZ | Bluetooth section: adapters, pairing, connecting |
-| `/proc` (Linux) | CPU, RAM, uptime, hostname and kernel readouts |
-| `sh` | Scanning `$PATH` for the launcher and starting the chosen command |
 
 The shell registers itself as the `org.freedesktop.Notifications` service, so it
 will not show notifications while another daemon (mako, dunst, ...) holds that
 name.
 
-Any font available to fontconfig works — `config.example.json` ships with
-`Arimo Nerd Font`, but no Nerd Font glyphs are actually used; every icon is an
-SVG in `assets/`.
+Any font available to fontconfig works — no Nerd Font glyphs are used; every
+icon is an SVG in `assets/`.
 
 ## IPC
 
