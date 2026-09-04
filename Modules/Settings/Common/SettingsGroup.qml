@@ -16,19 +16,18 @@ ColumnLayout {
 
   Layout.fillWidth: true
 
-  spacing: ConfigService.spacing.vertical
+  spacing: ConfigService.spacing
 
   RowLayout {
     Layout.fillWidth: true
 
-    spacing: ConfigService.spacing.horizontal / 2
+    spacing: ConfigService.spacing
 
     MesaText {
       Layout.alignment: Qt.AlignVCenter
 
       text: root.title
       font.bold: true
-      color: ConfigService.colors.base04
     }
 
     Item {
@@ -47,7 +46,7 @@ ColumnLayout {
     visible: root.empty
 
     text: root.emptyText
-    color: ConfigService.colors.base03
+    color: ConfigService.colors.on_surface
   }
 
   ColumnLayout {
@@ -56,6 +55,6 @@ ColumnLayout {
     Layout.fillWidth: true
 
     visible: !root.empty
-    spacing: ConfigService.spacing.vertical
+    spacing: ConfigService.spacing
   }
 }

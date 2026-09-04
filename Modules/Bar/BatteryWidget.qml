@@ -9,10 +9,10 @@ import qs.Services
 Rectangle {
   id: root
 
-  color: ConfigService.colors.base00
+  color: ConfigService.colors.background
 
-  implicitWidth: batteryRow.implicitWidth + ConfigService.spacing.horizontal
-  implicitHeight: batteryRow.implicitHeight + ConfigService.spacing.vertical
+  implicitWidth: batteryRow.implicitWidth + ConfigService.spacing
+  implicitHeight: batteryRow.implicitHeight + ConfigService.spacing
 
   property UPowerDevice device: UPower.displayDevice
   property int percentage: device ? device.percentage * 100 : null

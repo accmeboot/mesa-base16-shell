@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.Pipewire
 
+import qs.Services
 import qs.Modules.Settings.Common
 
 SettingsGroup {
@@ -17,22 +18,30 @@ SettingsGroup {
 
   empty: root.nodes.length === 0
 
-  SettingsCard {
+  ColumnLayout {
+    Layout.fillWidth: true
+
+    spacing: ConfigService.border
+
     Repeater {
       model: root.nodes
 
-      AudioNodeRow {
+      SettingsCard {
+        id: card
+
         required property PwNode modelData
 
-        Layout.fillWidth: true
+        AudioNodeRow {
+          Layout.fillWidth: true
 
-        node: modelData
-        isDefault: root.defaultNode === modelData
-        selectable: root.selectable
-        icon: root.icon
-        mutedIcon: root.mutedIcon
+          node: card.modelData
+          isDefault: root.defaultNode === card.modelData
+          selectable: root.selectable
+          icon: root.icon
+          mutedIcon: root.mutedIcon
 
-        onActivated: root.nodeActivated(modelData)
+          onActivated: root.nodeActivated(card.modelData)
+        }
       }
     }
   }

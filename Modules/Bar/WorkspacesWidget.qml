@@ -15,45 +15,31 @@ RowLayout {
   Repeater {
     model: SwayService.getWorkspacesForMonitor(root.screen.name)
 
-    Rectangle {
+    MesaButton {
+      id: workspace
+
       required property var modelData
 
       visible: modelData.monitor === root.screen.name
 
-      implicitWidth: label.implicitWidth + ConfigService.spacing.horizontal
-      implicitHeight: label.implicitHeight + ConfigService.spacing.vertical
+      horizontalPadding: ConfigService.spacing * 2
 
-      color: modelData.focused ? ConfigService.colors.base0D : (modelData.urgent ? ConfigService.colors.base08 : ConfigService.colors.base00)
+      text: modelData.name
+      color: {
+        if (modelData.focused) {
+          return ConfigService.colors.highlight
+        }
 
-      MesaText {
-        id: label
-        anchors.centerIn: parent
-        text: modelData.name
-        color: modelData.focused ? ConfigService.colors.base00 : ConfigService.colors.base05
+        if (modelData.urgent) {
+          return ConfigService.colors.critical
+        }
+
+        return ConfigService.colors.surface
       }
 
+      contentColor: modelData.focused ? ConfigService.colors.background : ConfigService.colors.foreground
 
-      Rectangle {
-        visible: modelData.occupied && ConfigService.workspaces.persistent
-
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.margins: 3
-
-        width: 5
-        height: 5
-
-        color: modelData.focused ? ConfigService.colors.base00 : "transparent"
-        border.width: 1
-        border.color: modelData.focused ? ConfigService.colors.base00 : ConfigService.colors.base05
-      }
-
-      MouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
-        onClicked: modelData.activate()
-      }
+      onClicked: workspace.modelData.activate()
     }
   }
 }

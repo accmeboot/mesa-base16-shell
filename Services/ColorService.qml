@@ -10,17 +10,17 @@ Singleton {
     const colors = ConfigService.colors;
 
     if (critical >= warning) {
-      if (value > critical) return colors.base08;
-      if (value > warning) return colors.base0A;
+      if (value > critical) return colors.critical;
+      if (value > warning) return colors.attention;
     } else {
-      if (value < critical) return colors.base08;
-      if (value < warning) return colors.base0A;
+      if (value < critical) return colors.critical;
+      if (value < warning) return colors.attention;
     }
 
-    return colors.base0B;
+    return colors.ok;
   }
 
   function status(ok: bool): color {
-    return ok ? ConfigService.colors.base0B : ConfigService.colors.base08;
+    return ok ? ConfigService.colors.ok : ConfigService.colors.critical;
   }
 }

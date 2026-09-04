@@ -9,7 +9,7 @@ import qs.Components
 
 Rectangle {
   required property var modelData
-  readonly property int padding: ConfigService.spacing.vertical
+  readonly property int padding: ConfigService.spacing
   readonly property int inset: root.border.width + root.padding
 
   id: root
@@ -19,40 +19,18 @@ Rectangle {
 
   clip: true
 
-  color: ConfigService.colors.base00
+  color: ConfigService.colors.background
 
-  border.color: ConfigService.colors.base02
-  border.width: 2
+  border.color: ConfigService.colors.on_surface
+  border.width: ConfigService.border
 
-  Rectangle {
-    id: closeButton
-
-    anchors.top: parent.top
-    anchors.left: parent.left
-
-    z: 1
-
-    implicitWidth: closeText.implicitWidth + root.padding * 2
-    implicitHeight: closeText.implicitHeight
-
-    color: ConfigService.colors.base08
-
-    MesaText {
-      id: closeText
-      anchors.centerIn: parent
-      text: "X"
-      color: ConfigService.colors.base00
-    }
-
-    MouseArea {
-      id: closeMouseArea
-      anchors.fill: parent
-      cursorShape: Qt.PointingHandCursor
-      hoverEnabled: true
-
-      onClicked: {
+  MesaButton {
+    icon: "cross"
+    color: ConfigService.colors.critical
+    contentColor: ConfigService.colors.background
+    border.width: 0
+    onClicked: {
         NotificationsService.dismissOrExpireNotification(modelData.id);
-      }
     }
   }
 
@@ -75,18 +53,14 @@ Rectangle {
 
     ColumnLayout {
       id: notificationMainColumn
-
       Layout.fillWidth: true
       Layout.alignment: Qt.AlignVCenter
-
-      spacing: ConfigService.spacing.vertical / 2
+      spacing: ConfigService.spacing
 
       RowLayout {
         id: notificationHeader
-
         Layout.fillWidth: true
-
-        spacing: ConfigService.spacing.horizontal
+        spacing: ConfigService.spacing
 
         MesaText {
           Layout.fillWidth: true
@@ -96,11 +70,11 @@ Rectangle {
           color: {
             switch (modelData.urgency) {
               case NotificationUrgency.Critical:
-              return ConfigService.colors.base08;
+              return ConfigService.colors.critical;
               case NotificationUrgency.Normal:
-              return ConfigService.colors.base05;
+              return ConfigService.colors.foreground;
               default:
-              return ConfigService.colors.base05;
+              return ConfigService.colors.foreground;
             }
           }
           font.bold: true
@@ -119,7 +93,6 @@ Rectangle {
 
       MesaText {
         Layout.fillWidth: true
-
         text: modelData.title
         font.bold: true
         elide: Text.ElideRight
@@ -127,7 +100,6 @@ Rectangle {
       }
       MesaText {
         Layout.fillWidth: true
-
         text: modelData.body
         wrapMode: Text.Wrap
         maximumLineCount: 2
@@ -138,12 +110,8 @@ Rectangle {
 
       Flow {
         id: actionsFlow
-
         Layout.fillWidth: true
-        Layout.topMargin: ConfigService.spacing.vertical
-
-        spacing: ConfigService.spacing.vertical
-
+        spacing: ConfigService.spacing
         visible: Boolean(modelData.actions.count)
 
         Repeater {
@@ -154,10 +122,8 @@ Rectangle {
 
             required property var modelData
 
-            maximumContentWidth: actionsFlow.width - ConfigService.spacing.horizontal
-
+            maximumContentWidth: actionsFlow.width - ConfigService.spacing * 2
             text: action.modelData.text || "OK" + " (" + action.modelData.identifier + ")"
-
             onClicked: {
               NotificationsService.invokeAction(root.modelData.id, action.modelData.id);
             }

@@ -1,5 +1,4 @@
 import Quickshell
-import Quickshell.Io
 import QtQuick
 
 import qs.Services
@@ -9,6 +8,8 @@ Scope {
 
   LazyLoader {
     id: loader
+
+    activeAsync: SettingsService.isOpen
 
     FloatingWindow {
       title: "Settings"
@@ -21,21 +22,25 @@ Scope {
       minimumSize: size
       maximumSize: size
 
-      color: ConfigService.colors.base00
+      color: ConfigService.colors.background
 
-      onClosed: loader.active = false
+      onClosed: SettingsService.close()
 
-      Sections {
+      Rectangle {
+        id: background
+
         anchors.fill: parent
+
+        color: ConfigService.colors.background
+
+        border.color: ConfigService.colors.on_surface
+        border.width: ConfigService.border
+
+        Sections {
+          anchors.fill: parent
+          anchors.margins: background.border.width
+        }
       }
-    }
-  }
-
-  IpcHandler {
-    target: "settingsWindow"
-
-    function toggle(): void {
-      loader.activeAsync = !(loader.active || loader.loading);
     }
   }
 }

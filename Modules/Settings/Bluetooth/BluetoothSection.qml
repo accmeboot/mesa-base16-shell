@@ -7,7 +7,7 @@ import qs.Modules.Settings.Common
 ColumnLayout {
   id: root
 
-  spacing: ConfigService.spacing.vertical * 3
+  spacing: ConfigService.spacing * 3
 
   SettingsGroup {
     title: "Adapter"
@@ -27,7 +27,7 @@ ColumnLayout {
     headerContent: MesaText {
       visible: devices.scanning
       text: "Scanning"
-      color: ConfigService.colors.base0A
+      color: ConfigService.colors.attention
     }
 
     BluetoothDeviceGroup {

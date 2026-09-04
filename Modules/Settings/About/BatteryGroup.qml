@@ -44,13 +44,13 @@ SettingsCard {
         switch (root.device?.state) {
         case UPowerDeviceState.Charging:
         case UPowerDeviceState.FullyCharged:
-          return colors.base0B;
+          return colors.ok;
         case UPowerDeviceState.PendingCharge:
         case UPowerDeviceState.PendingDischarge:
-          return colors.base0A;
-        case UPowerDeviceState.Empty: return colors.base08;
-        case UPowerDeviceState.Discharging: return colors.base05;
-        default: return colors.base03;
+          return colors.attention;
+        case UPowerDeviceState.Empty: return colors.critical;
+        case UPowerDeviceState.Discharging: return colors.foreground;
+        default: return colors.on_surface;
         }
       }
     }

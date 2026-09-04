@@ -7,13 +7,10 @@ import Quickshell.Io
 Singleton {
   id: root
 
-  readonly property bool persistent: ConfigService.workspaces.persistent
-  readonly property int count: 10
-
   property string mode: "defulat" // resize
 
   function getWorkspacesForMonitor(monitor: string): var {
-    let existingWorkspaces = I3.workspaces.values
+    const existingWorkspaces = I3.workspaces.values
     .filter((ws) => ws.monitor?.name === monitor)
     .map((ws) => ({
       name: ws.name,
@@ -22,28 +19,8 @@ Singleton {
       monitor: ws.monitor.name,
       number: ws.number,
       urgent: ws.urgent,
-      occupied: (ws.lastIpcObject.focus?.length ?? 0) > 0,
       activate: () => I3.dispatch(`workspace ${ws.name}`),
     }))
-
-    if (persistent) {
-      const takenWorkspaces = new Set(existingWorkspaces.map(ws => ws.number));
-
-      for (let index = 1; index <= count; index++) {
-        if (takenWorkspaces.has(index)) continue;
-
-        existingWorkspaces.push({
-          name: index,
-          focused: false,
-          active: false,
-          monitor: monitor,
-          number: index,
-          urgent: false,
-          occupied: false,
-          activate: () => I3.dispatch(`workspace ${index}`),
-        })
-      }
-    }
 
     return existingWorkspaces.sort((a, b) => a.number - b.number)
   }
@@ -57,29 +34,6 @@ Singleton {
 
           if (data?.change) {
             root.mode = data.change
-          }
-        } catch (e) {
-          console.error(e)
-        }
-      }
-    }
-  }
-
-
-  I3IpcListener {
-    subscriptions: ["window"]
-    onIpcEvent: event => {
-      if (event.data) {
-        try {
-          const data = JSON.parse(event.data)
-          const changeTypes = ["new", "close", "move", "floating"];
-
-          if (data?.change && changeTypes.includes(data.change)) {
-            I3.refreshWorkspaces();
-          }
-
-          if (data?.chage === 'focus') {
-
           }
         } catch (e) {
           console.error(e)

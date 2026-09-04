@@ -6,10 +6,9 @@ A minimal and customizable status bar configuration for [Quickshell](https://git
 
 - **Workspace Widget** - Visual workspace indicators with:
   - Active workspace highlighting
-  - Occupied workspace indicators
+
   - Urgent workspace notifications
   - Click-to-switch functionality
-  - Support for persistent workspaces (1-10)
   
 - **Clock Widget** - Simple date and time display with minute precision
 
@@ -39,41 +38,34 @@ A minimal and customizable status bar configuration for [Quickshell](https://git
 
 ## Configuration
 
-### Colors & Font
+### Colors, Font & Spacing
 
-Edit `Settings.qml` or create a `settings.json` file in the same directory to customize:
+Copy `config.example.json` to `config.json` in the same directory to customize:
 
 ```json
 {
   "colors": {
-    "base00": "#1d2021",
-    "base01": "#3c3836",
-    "base05": "#d5c4a1",
-    ...
+    "background": "#1d2021",
+    "surface": "#3c3836",
+    "on_surface": "#504945",
+    "foreground": "#d5c4a1",
+    "highlight": "#83a598",
+    "attention": "#fabd2f",
+    "ok": "#b8bb26",
+    "critical": "#fb4934"
   },
   "font": {
     "name": "JetBrainsMono Nerd Font",
     "size": 12
   },
-  "workspaces": {
-    "persistent": true
-  }
+  "spacing": 10
 }
 ```
 
-The settings file supports hot-reloading, so changes will be applied automatically.
+`spacing` is a single base unit in pixels; widgets derive their padding and gaps
+from it (`spacing`, `spacing / 2`, `spacing * 2`, ...).
 
-### Persistent Workspaces
-
-By default, workspaces 1-10 are always visible. To show only active workspaces:
-
-```json
-{
-  "workspaces": {
-    "persistent": false
-  }
-}
-```
+The config file supports hot-reloading, so changes will be applied automatically.
 
 ## File Structure
 
@@ -123,18 +115,16 @@ anchors {
 
 ## Color Scheme
 
-The default Gruvbox Dark palette includes:
+The palette is eight semantic colors, defaulting to Gruvbox Dark:
 
-- `base00-03`: Background shades (darkest to dark)
-- `base04-07`: Foreground shades (light to lightest)
-- `base08`: Red (urgent notifications)
-- `base09`: Orange
-- `base0A`: Yellow
-- `base0B`: Green
-- `base0C`: Cyan
-- `base0D`: Blue
-- `base0E`: Purple
-- `base0F`: Brown
+- `background`: Window and widget background
+- `surface`: Raised surfaces - cards, menus, separators
+- `on_surface`: Borders, button fills, muted and disabled text
+- `foreground`: Primary text
+- `highlight`: Accent - focused workspace, active tab, selection
+- `ok`: Healthy state - connected, paired, enabled, normal thresholds
+- `attention`: Transitional or warning state - connecting, pairing, scanning
+- `critical`: Failure or urgent state - disconnected, errors, urgent notifications
 
 ## License
 

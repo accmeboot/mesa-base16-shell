@@ -40,14 +40,14 @@ ColumnLayout {
   RowLayout {
     Layout.fillWidth: true
 
-    spacing: ConfigService.spacing.horizontal / 2
+    spacing: ConfigService.spacing
 
     MesaIcon {
       Layout.alignment: Qt.AlignVCenter
 
       visible: root.selectable && root.isDefault
       name: "dot"
-      color: ConfigService.colors.base0B
+      color: ConfigService.colors.ok
       size: ConfigService.font.size * 0.5
     }
 
@@ -94,7 +94,7 @@ ColumnLayout {
 
       text: `${Math.round(volume.value * 100)}%`
       horizontalAlignment: Text.AlignRight
-      color: ConfigService.colors.base04
+      color: ConfigService.colors.foreground
     }
 
     MesaButton {

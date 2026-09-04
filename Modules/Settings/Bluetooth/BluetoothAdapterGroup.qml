@@ -14,7 +14,7 @@ ColumnLayout {
 
   Layout.fillWidth: true
 
-  spacing: ConfigService.spacing.vertical
+  spacing: ConfigService.border
 
   component ToggleRow: RowLayout {
     id: toggle
@@ -34,19 +34,14 @@ ColumnLayout {
 
     Layout.fillWidth: true
 
-    spacing: ConfigService.spacing.horizontal / 2
+    spacing: ConfigService.spacing
 
     MesaButton {
       Layout.alignment: Qt.AlignVCenter
 
       enabled: toggle.available
       text: toggle.active ? "on" : "off"
-      contentColor: {
-        const colors = ConfigService.colors;
-
-        if (!toggle.available) return colors.base03;
-        return toggle.active ? colors.base0B : colors.base04;
-      }
+      contentColor: toggle.active ? ConfigService.colors.ok : ConfigService.colors.foreground
 
       onClicked: toggle.toggled()
     }
@@ -55,7 +50,7 @@ ColumnLayout {
       visible: toggle.active && toggle.timeout > 0
 
       text: `resets after ${toggle.formatTimeout(toggle.timeout)}`
-      color: ConfigService.colors.base03
+      color: ConfigService.colors.foreground
     }
   }
 
@@ -83,7 +78,7 @@ ColumnLayout {
         RowLayout {
           Layout.fillWidth: true
 
-          spacing: ConfigService.spacing.horizontal / 2
+          spacing: ConfigService.spacing
 
           InfoValue {
             text: {
@@ -100,12 +95,12 @@ ColumnLayout {
               const colors = ConfigService.colors;
 
               switch (card.modelData.state) {
-              case BluetoothAdapterState.Enabled: return colors.base0B;
+              case BluetoothAdapterState.Enabled: return colors.ok;
               case BluetoothAdapterState.Enabling:
               case BluetoothAdapterState.Disabling:
-                return colors.base0A;
-              case BluetoothAdapterState.Blocked: return colors.base08;
-              default: return colors.base03;
+                return colors.attention;
+              case BluetoothAdapterState.Blocked: return colors.critical;
+              default: return colors.on_surface;
               }
             }
           }
@@ -115,7 +110,6 @@ ColumnLayout {
 
             enabled: !card.busy && !card.blocked
             text: card.modelData.enabled ? "Turn off" : "Turn on"
-            contentColor: card.busy || card.blocked ? ConfigService.colors.base03 : ConfigService.colors.base05
 
             onClicked: card.modelData.enabled = !card.modelData.enabled
           }
@@ -130,13 +124,13 @@ ColumnLayout {
         }
 
         InfoLabel {
-          Layout.topMargin: ConfigService.spacing.vertical
+          Layout.topMargin: ConfigService.spacing
 
           text: "Discoverable"
         }
 
         ToggleRow {
-          Layout.topMargin: ConfigService.spacing.vertical
+          Layout.topMargin: ConfigService.spacing
 
           active: card.modelData.discoverable
           available: card.modelData.enabled

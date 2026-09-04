@@ -6,21 +6,19 @@ import qs.Services
 TextField {
   id: root
 
-  color: ConfigService.colors.base05
+  color: ConfigService.colors.foreground
   font.family: ConfigService.font.name
   font.pointSize: ConfigService.font.size
   renderType: Text.NativeRendering
 
-  placeholderTextColor: ConfigService.colors.base03
-  selectionColor: ConfigService.colors.base0D
-  selectedTextColor: ConfigService.colors.base00
+  placeholderTextColor: ConfigService.colors.on_surface
+  selectionColor: ConfigService.colors.highlight
+  selectedTextColor: ConfigService.colors.background
 
-  leftPadding: ConfigService.spacing.horizontal / 2
-  rightPadding: ConfigService.spacing.horizontal / 2
-  topPadding: ConfigService.spacing.vertical / 2
-  bottomPadding: ConfigService.spacing.vertical / 2
+  leftPadding: ConfigService.spacing
+  rightPadding: ConfigService.spacing
 
   background: Rectangle {
-    color: ConfigService.colors.base02
+    color: ConfigService.colors.surface
   }
 }

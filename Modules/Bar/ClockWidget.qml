@@ -7,10 +7,10 @@ import qs.Services
 
 
 Rectangle {
-  color: ConfigService.colors.base00
+  color: ConfigService.colors.background
 
-  implicitWidth: clockRow.implicitWidth + ConfigService.spacing.horizontal
-  implicitHeight: clockRow.implicitHeight + ConfigService.spacing.vertical
+  implicitWidth: clockRow.implicitWidth + ConfigService.spacing
+  implicitHeight: clockRow.implicitHeight + ConfigService.spacing
 
   RowLayout {
     id: clockRow

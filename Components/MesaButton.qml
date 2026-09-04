@@ -4,15 +4,26 @@ import qs.Services
 
 Rectangle {
   id: root
+
   property string text
   property string icon
   property int iconSize: Math.round(ConfigService.font.size * 1.5)
-  property color contentColor: ConfigService.colors.base05
+  property color contentColor: ConfigService.colors.foreground
   property int maximumContentWidth: 0
-  signal clicked
-  implicitWidth: (root.icon ? iconLoader.implicitWidth : label.width) + ConfigService.spacing.horizontal
-  implicitHeight: (root.icon ? iconLoader.implicitHeight : label.implicitHeight) + ConfigService.spacing.vertical
-  color: ConfigService.colors.base02
+  property int horizontalPadding: ConfigService.spacing
+  property int verticalPadding: ConfigService.spacing
+  property alias acceptedButtons: mouseArea.acceptedButtons
+
+  readonly property color effectiveContentColor: root.enabled ? root.contentColor : ConfigService.colors.on_surface
+
+  signal clicked(var mouse)
+
+  implicitWidth: (root.icon ? iconLoader.implicitWidth : label.width) + root.horizontalPadding
+  implicitHeight: (root.icon ? iconLoader.implicitHeight : label.implicitHeight) + root.verticalPadding
+  color: ConfigService.colors.surface
+
+  border.color: ConfigService.colors.on_surface
+  border.width: ConfigService.border
 
   MesaText {
     id: label
@@ -20,7 +31,7 @@ Rectangle {
     anchors.centerIn: parent
     width: root.maximumContentWidth > 0 ? Math.min(label.implicitWidth, root.maximumContentWidth) : label.implicitWidth
     text: root.text
-    color: root.contentColor
+    color: root.effectiveContentColor
     elide: Text.ElideRight
     textFormat: Text.StyledText
   }
@@ -33,14 +44,15 @@ Rectangle {
     sourceComponent: MesaIcon {
       name: root.icon
       size: root.iconSize
-      color: root.contentColor
+      color: root.effectiveContentColor
     }
   }
 
   MouseArea {
+    id: mouseArea
     anchors.fill: parent
     hoverEnabled: true
     cursorShape: Qt.PointingHandCursor
-    onClicked: root.clicked()
+    onClicked: mouse => root.clicked(mouse)
   }
 }

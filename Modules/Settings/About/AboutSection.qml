@@ -6,7 +6,7 @@ import qs.Modules.Settings.Common
 ColumnLayout {
   id: root
 
-  spacing: ConfigService.spacing.vertical * 3
+  spacing: ConfigService.spacing * 3
 
   SettingsGroup {
     title: "System"

@@ -18,7 +18,7 @@ ColumnLayout {
 
   Layout.fillWidth: true
 
-  spacing: 0
+  spacing: ConfigService.border
 
   onSelectedNetworkChanged: {
     if (root.selectedNetwork !== root.promptedNetwork) root.promptedNetwork = null;
@@ -113,14 +113,14 @@ ColumnLayout {
       RowLayout {
         Layout.fillWidth: true
 
-        spacing: ConfigService.spacing.horizontal / 2
+        spacing: ConfigService.spacing
 
         MesaIcon {
           Layout.alignment: Qt.AlignVCenter
 
           visible: card.modelData.connected
           name: "dot"
-          color: ConfigService.colors.base0B
+          color: ConfigService.colors.ok
           size: ConfigService.font.size * 0.5
         }
 
@@ -147,7 +147,7 @@ ColumnLayout {
         Layout.fillWidth: true
 
         visible: card.selected
-        spacing: ConfigService.spacing.horizontal / 2
+        spacing: ConfigService.spacing
 
         MesaInput {
           id: passwordInput
@@ -213,7 +213,7 @@ ColumnLayout {
         visible: card.error !== ""
 
         text: card.error
-        color: ConfigService.colors.base08
+        color: ConfigService.colors.critical
       }
     }
   }

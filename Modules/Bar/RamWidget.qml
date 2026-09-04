@@ -9,10 +9,10 @@ import qs.Services
 Rectangle {
   id: root
 
-  color: ConfigService.colors.base00
+  color: ConfigService.colors.background
 
-  implicitWidth: ramRow.implicitWidth + ConfigService.spacing.horizontal
-  implicitHeight: ramRow.implicitHeight + ConfigService.spacing.vertical
+  implicitWidth: ramRow.implicitWidth + ConfigService.spacing
+  implicitHeight: ramRow.implicitHeight + ConfigService.spacing
 
   property real used: 0
   property real total: 0

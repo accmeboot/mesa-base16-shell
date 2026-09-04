@@ -37,37 +37,18 @@ RowLayout {
     }
   }
 
+  spacing: 0
 
-  Rectangle {
-    implicitWidth: toggleLabel.implicitWidth + ConfigService.spacing.horizontal
-    implicitHeight: toggleLabel.implicitHeight + ConfigService.spacing.vertical
-
-    color: ConfigService.colors.base00
-
-    MesaText {
-      id: toggleLabel
-
-      anchors.centerIn: parent
-
-      text: DmenuService.isOpen ? "X" : ">"
-      color: ConfigService.colors.base05
-    }
-
-    MouseArea {
-      anchors.fill: parent
-      cursorShape: Qt.PointingHandCursor
-      hoverEnabled: true
-
-      onClicked: () => {
-        DmenuService.isOpen ? DmenuService.close() : DmenuService.open();
-      }
-    }
+  MesaButton {
+    icon: DmenuService.isOpen ? "cross" : "command"
+    onClicked: DmenuService.isOpen ? DmenuService.close() : DmenuService.open()
   }
 
   RowLayout {
     id: menuRow
 
     visible: DmenuService.isOpen
+    spacing: 0
 
     onVisibleChanged: {
       if (!visible) {
@@ -75,26 +56,13 @@ RowLayout {
         menuList.currentIndex = 0;
       }
     }
-    TextField {
+    MesaInput {
       id: searchField
 
       Layout.fillHeight: true
+      Layout.minimumWidth: 150
 
       focus: true
-
-      font.family: ConfigService.font.name
-      font.pointSize: ConfigService.font.size
-      color: ConfigService.colors.base05
-
-      leftPadding: 5
-      rightPadding: 5
-      topPadding: 0
-      bottomPadding: 0
-
-      background: Rectangle {
-        implicitWidth: 150
-        color: ConfigService.colors.base01
-      }
 
       onTextChanged: {
         menuList.currentIndex = 0;
@@ -166,44 +134,30 @@ RowLayout {
           }
         }
 
-        delegate: ItemDelegate {
+        delegate: MesaButton {
           id: delegateRoot
           required property int index
           required property string modelData
 
           anchors.verticalCenter: parent?.verticalCenter
 
-          padding: 0
-          background: null
+          text: delegateRoot.modelData
+          border.width: 0
 
-          focusPolicy: Qt.NoFocus
+          color: delegateRoot.ListView.isCurrentItem
+          ? ConfigService.colors.highlight
+          : ConfigService.colors.background
+
+          contentColor: delegateRoot.ListView.isCurrentItem
+          ? ConfigService.colors.background
+          : ConfigService.colors.foreground
 
           onClicked: {
-            menuList.currentIndex = index;
-            DmenuService.execute(modelData);
+            menuList.currentIndex = delegateRoot.index;
+            DmenuService.execute(delegateRoot.modelData);
           }
-
-          contentItem: Rectangle {
-            implicitWidth: label.implicitWidth + ConfigService.spacing.horizontal
-            implicitHeight: label.implicitHeight + ConfigService.spacing.vertical
-
-            color: delegateRoot.ListView.isCurrentItem
-            ? ConfigService.colors.base0D
-            : ConfigService.colors.base00
-
-            MesaText {
-              id: label
-              text: modelData
-              anchors.centerIn: parent
-
-              color: delegateRoot.ListView.isCurrentItem
-              ? ConfigService.colors.base00
-              : ConfigService.colors.base05
-            }
-          }       
         }
       }
     }
-    MesaSeparator {}
   }
 }

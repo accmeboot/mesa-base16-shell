@@ -10,8 +10,8 @@ Rectangle {
 
   Layout.fillWidth: true
 
-  implicitHeight: body.implicitHeight + ConfigService.spacing.vertical * 2
-  color: ConfigService.colors.base01
+  implicitHeight: body.implicitHeight + ConfigService.spacing * 2
+  color: ConfigService.colors.surface
 
   ColumnLayout {
     id: body
@@ -19,9 +19,9 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.verticalCenter: parent.verticalCenter
-    anchors.leftMargin: ConfigService.spacing.horizontal / 2
-    anchors.rightMargin: ConfigService.spacing.horizontal / 2
+    anchors.leftMargin: ConfigService.spacing
+    anchors.rightMargin: ConfigService.spacing
 
-    spacing: ConfigService.spacing.vertical
+    spacing: ConfigService.spacing
   }
 }

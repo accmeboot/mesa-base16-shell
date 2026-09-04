@@ -14,7 +14,7 @@ ColumnLayout {
 
   Layout.fillWidth: true
 
-  spacing: ConfigService.spacing.vertical
+  spacing: ConfigService.border
 
   Repeater {
     id: repeater
@@ -37,7 +37,7 @@ ColumnLayout {
         RowLayout {
           Layout.fillWidth: true
 
-          spacing: ConfigService.spacing.horizontal / 2
+          spacing: ConfigService.spacing
 
           InfoValue {
             text: {
@@ -54,12 +54,12 @@ ColumnLayout {
             color: {
               const colors = ConfigService.colors;
 
-              if (!card.modelData.hasLink) return colors.base03;
+              if (!card.modelData.hasLink) return colors.foreground;
 
               switch (card.modelData.state) {
               case ConnectionState.Connecting:
               case ConnectionState.Disconnecting:
-                return colors.base0A;
+                return colors.attention;
               default:
                 return ColorService.status(card.modelData.connected);
               }
@@ -113,17 +113,17 @@ ColumnLayout {
         }
 
         InfoLabel {
-          Layout.topMargin: ConfigService.spacing.vertical
+          Layout.topMargin: ConfigService.spacing
 
           text: "Autoconnect"
         }
 
         MesaButton {
           Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-          Layout.topMargin: ConfigService.spacing.vertical
+          Layout.topMargin: ConfigService.spacing
 
           text: card.modelData.autoconnect ? "on" : "off"
-          contentColor: card.modelData.autoconnect ? ConfigService.colors.base0B : ConfigService.colors.base04
+          contentColor: card.modelData.autoconnect ? ConfigService.colors.ok : ConfigService.colors.foreground
 
           onClicked: card.modelData.autoconnect = !card.modelData.autoconnect
         }

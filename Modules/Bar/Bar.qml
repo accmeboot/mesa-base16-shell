@@ -15,7 +15,7 @@ Scope {
       required property var modelData
       screen: modelData
 
-      color: ConfigService.colors.base00
+      color: ConfigService.colors.background
 
       WlrLayershell.keyboardFocus: {
         if (DmenuService.isOpen) return WlrKeyboardFocus.Exclusive;
@@ -37,34 +37,24 @@ Scope {
         anchors.left: parent.left
         anchors.right: parent.right
 
-        spacing: 0
+        spacing: ConfigService.spacing
 
         WorkspacesWidget {
           Layout.alignment: Qt.AlignLeft
           screen: modelData
         }
         ModeWidget {}
-        MesaSeparator {}
         DmenuWidget {}
 
         Item { Layout.fillWidth: true }
 
         TrayWidget { id: tray }
-        MesaSeparator { visible: tray.visible }
-
-        CpuWidget { id: cpuWidget }
-        MesaSeparator { visible: cpuWidget.visible }
-
-        RamWidget { id: ramWidget }
-        MesaSeparator { visible: ramWidget.visible }
-
-        BatteryWidget { id: batteryWidget }
-        MesaSeparator { visible: batteryWidget.visible }
-
-        NetworkWidget { id: networkWidget }
-        MesaSeparator { visible: networkWidget.visible }
-
+        CpuWidget {}
+        RamWidget {}
+        BatteryWidget {}
+        NetworkWidget {}
         ClockWidget {}
+        SettingsWidget {}
       }
     }
   }

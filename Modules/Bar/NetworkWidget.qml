@@ -9,10 +9,10 @@ import qs.Services
 Rectangle {
   id: root
 
-  color: ConfigService.colors.base00
+  color: ConfigService.colors.background
 
-  implicitWidth: networkRow.implicitWidth + ConfigService.spacing.horizontal
-  implicitHeight: networkRow.implicitHeight + ConfigService.spacing.vertical
+  implicitWidth: networkRow.implicitWidth + ConfigService.spacing
+  implicitHeight: networkRow.implicitHeight + ConfigService.spacing
 
   property var device: Networking.devices.values.find((d) => d.connected)
 

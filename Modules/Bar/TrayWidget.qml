@@ -23,47 +23,31 @@ RowLayout {
   Repeater {
     model: SystemTray.items
 
-    Rectangle {
+    MesaButton {
       id: item
 
       required property SystemTrayItem modelData
 
       visible: trayRow.isVisible
 
-      implicitWidth: label.implicitWidth + ConfigService.spacing.horizontal
-      implicitHeight: label.implicitHeight + ConfigService.spacing.vertical
+      acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-      color: ConfigService.colors.base00
+      text: {
+        var appName = item.modelData.title || item.modelData.tooltipTitle || item.modelData.id;
+        const hasUnderscore = appName.includes("_")
 
-      MesaText {
-        id: label
-
-        anchors.centerIn: parent
-
-        text: {
-          var appName = item.modelData.title || item.modelData.tooltipTitle || item.modelData.id;
-          const hasUnderscore = appName.includes("_")
-
-          if (hasUnderscore) {
-            appName = appName.substring(0, item.modelData.id.indexOf("_"));
-          }
-
-          return appName.toLowerCase()
+        if (hasUnderscore) {
+          appName = appName.substring(0, item.modelData.id.indexOf("_"));
         }
+
+        return appName.toLowerCase()
       }
 
-      MouseArea {
-        anchors.fill: parent
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
-        cursorShape: Qt.PointingHandCursor
-        hoverEnabled: true
-
-        onClicked: mouse => {
-          if (mouse.button === Qt.LeftButton && !item.modelData.onlyMenu) {
-            item.modelData.activate();
-          } else if (item.modelData.hasMenu) {
-            trayMenu.openAt(item, item.modelData.menu);
-          }
+      onClicked: mouse => {
+        if (mouse.button === Qt.LeftButton && !item.modelData.onlyMenu) {
+          item.modelData.activate();
+        } else if (item.modelData.hasMenu) {
+          trayMenu.openAt(item, item.modelData.menu);
         }
       }
     }
@@ -73,27 +57,8 @@ RowLayout {
     id: trayMenu
   }
 
-  Rectangle {
-    implicitWidth: toggleLabel.implicitWidth + ConfigService.spacing.horizontal
-    implicitHeight: toggleLabel.implicitHeight + ConfigService.spacing.vertical
-
-    color: ConfigService.colors.base00
-
-    MesaText {
-      id: toggleLabel
-
-      anchors.centerIn: parent
-
-      text: trayRow.isVisible ? "X" : "<"
-      color: ConfigService.colors.base05
-    }
-
-    MouseArea {
-      anchors.fill: parent
-      cursorShape: Qt.PointingHandCursor
-      hoverEnabled: true
-
-      onClicked: trayRow.isVisible = !trayRow.isVisible
-    }
+  MesaButton {
+    icon: trayRow.isVisible ? "cross" : "menu"
+    onClicked: trayRow.isVisible = !trayRow.isVisible
   }
 }

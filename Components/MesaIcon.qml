@@ -7,7 +7,7 @@ Item {
   id: root
   property string name
   property int size: ConfigService.font.size
-  property color color: ConfigService.colors.base05
+  property color color: ConfigService.colors.foreground
 
   implicitWidth: root.size
   implicitHeight: root.size

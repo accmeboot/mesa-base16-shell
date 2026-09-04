@@ -30,7 +30,7 @@ SettingsCard {
   }
 
   component Field: InfoValue {
-    color: text === "Unknown" ? ConfigService.colors.base03 : ConfigService.colors.base05
+    color: text === "Unknown" ? ConfigService.colors.on_surface : ConfigService.colors.foreground
   }
 
   InfoGrid {

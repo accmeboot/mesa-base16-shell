@@ -18,7 +18,7 @@ ColumnLayout {
     return monitor === true || monitor === "true";
   }
 
-  spacing: ConfigService.spacing.vertical * 3
+  spacing: ConfigService.spacing * 3
 
   PwObjectTracker {
     objects: root.nodes

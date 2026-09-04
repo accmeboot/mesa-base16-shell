@@ -26,7 +26,7 @@ ColumnLayout {
 
   Layout.fillWidth: true
 
-  spacing: 0
+  spacing: ConfigService.border
 
   Component.onDestruction: if (root.adapter) root.adapter.discovering = false
 
@@ -70,7 +70,7 @@ ColumnLayout {
       RowLayout {
         Layout.fillWidth: true
 
-        spacing: ConfigService.spacing.horizontal / 2
+        spacing: ConfigService.spacing
 
         HoverHandler {
           cursorShape: Qt.PointingHandCursor
@@ -85,7 +85,7 @@ ColumnLayout {
 
           visible: card.modelData.connected
           name: "dot"
-          color: ConfigService.colors.base0B
+          color: ConfigService.colors.ok
           size: ConfigService.font.size * 0.5
         }
 
@@ -118,15 +118,15 @@ ColumnLayout {
           color: {
             const colors = ConfigService.colors;
 
-            if (card.modelData.pairing) return colors.base0A;
-            if (!card.modelData.paired) return colors.base03;
+            if (card.modelData.pairing) return colors.attention;
+            if (!card.modelData.paired) return colors.foreground;
 
             switch (card.modelData.state) {
-            case BluetoothDeviceState.Connected: return colors.base0B;
+            case BluetoothDeviceState.Connected: return colors.ok;
             case BluetoothDeviceState.Connecting:
             case BluetoothDeviceState.Disconnecting:
-              return colors.base0A;
-            default: return colors.base03;
+              return colors.attention;
+            default: return colors.foreground;
             }
           }
         }
@@ -154,7 +154,7 @@ ColumnLayout {
 
           visible: card.modelData.paired
           text: card.modelData.trusted ? "on" : "off"
-          contentColor: card.modelData.trusted ? ConfigService.colors.base0B : ConfigService.colors.base04
+          contentColor: card.modelData.trusted ? ConfigService.colors.ok : ConfigService.colors.foreground
 
           onClicked: card.modelData.trusted = !card.modelData.trusted
         }
@@ -170,7 +170,7 @@ ColumnLayout {
 
           visible: card.modelData.paired
           text: card.modelData.wakeAllowed ? "on" : "off"
-          contentColor: card.modelData.wakeAllowed ? ConfigService.colors.base0B : ConfigService.colors.base04
+          contentColor: card.modelData.wakeAllowed ? ConfigService.colors.ok : ConfigService.colors.foreground
 
           onClicked: card.modelData.wakeAllowed = !card.modelData.wakeAllowed
         }
@@ -180,7 +180,7 @@ ColumnLayout {
         Layout.fillWidth: true
 
         visible: card.selected
-        spacing: ConfigService.spacing.horizontal / 2
+        spacing: ConfigService.spacing
 
         MesaButton {
           Layout.alignment: Qt.AlignVCenter
@@ -213,12 +213,7 @@ ColumnLayout {
           visible: !card.modelData.paired
           enabled: pairingAgent.registered
           text: card.modelData.pairing ? "Cancel" : "Pair"
-          contentColor: {
-            const colors = ConfigService.colors;
-
-            if (!pairingAgent.registered) return colors.base03;
-            return card.modelData.pairing ? colors.base0A : colors.base05;
-          }
+          contentColor: card.modelData.pairing ? ConfigService.colors.attention : ConfigService.colors.foreground
 
           onClicked: {
             if (card.modelData.pairing) {

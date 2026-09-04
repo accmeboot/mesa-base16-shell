@@ -22,13 +22,13 @@ Slider {
 
       implicitHeight: 2
 
-      color: ConfigService.colors.base02
+      color: ConfigService.colors.on_surface
 
       Rectangle {
         width: root.visualPosition * parent.width
         height: parent.height
 
-        color: ConfigService.colors.base0D
+        color: ConfigService.colors.highlight
       }
     }
   }
@@ -42,7 +42,7 @@ Slider {
 
     radius: width / 2
 
-    color: ConfigService.colors.base05
+    color: ConfigService.colors.foreground
   }
 
   HoverHandler {

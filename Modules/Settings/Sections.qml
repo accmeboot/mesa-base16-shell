@@ -18,54 +18,6 @@ ColumnLayout {
 
   spacing: 0
 
-  Rectangle {
-    Layout.fillWidth: true
-
-    implicitHeight: tabs.implicitHeight
-    color: ConfigService.colors.base01
-
-    RowLayout {
-      id: tabs
-
-      spacing: 0
-
-      Repeater {
-        model: root.sections
-
-        Rectangle {
-          id: tab
-
-          required property string modelData
-
-          readonly property bool active: root.activeSection === tab.modelData
-
-          implicitWidth: label.implicitWidth + ConfigService.spacing.horizontal
-          implicitHeight: label.implicitHeight + ConfigService.spacing.vertical
-
-          color: tab.active ? ConfigService.colors.base0D : "transparent"
-
-          MesaText {
-            id: label
-
-            anchors.centerIn: parent
-
-            text: tab.modelData
-            color: tab.active ? ConfigService.colors.base00 : ConfigService.colors.base05
-          }
-
-          MouseArea {
-            anchors.fill: parent
-
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-
-            onClicked: root.activeSection = tab.modelData
-          }
-        }
-      }
-    }
-  }
-
   Component {
     id: audio
 
@@ -97,7 +49,7 @@ ColumnLayout {
     Layout.fillHeight: true
 
     clip: true
-    padding: ConfigService.spacing.horizontal / 2
+    padding: ConfigService.spacing
     contentWidth: scroll.availableWidth
     contentHeight: section.implicitHeight
 
@@ -119,4 +71,41 @@ ColumnLayout {
     }
   }
 
+  Rectangle {
+    id: rail
+
+    Layout.fillWidth: true
+
+    implicitHeight: tabs.implicitHeight
+    color: ConfigService.colors.surface
+
+    clip: true
+
+    RowLayout {
+      id: tabs
+
+      spacing: 0
+
+      anchors.centerIn: parent
+
+      Repeater {
+        model: root.sections
+
+        MesaButton {
+          id: tab
+
+          required property string modelData
+
+          readonly property bool active: root.activeSection === tab.modelData
+
+          text: modelData
+
+          color: tab.active ? ConfigService.colors.highlight : ConfigService.colors.surface
+          contentColor: tab.active ? ConfigService.colors.background : ConfigService.colors.foreground
+
+          onClicked: root.activeSection = tab.modelData
+        }
+      }
+    }
+  }
 }
