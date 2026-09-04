@@ -56,6 +56,9 @@ ColumnLayout {
     RowLayout {
       id: tabs
 
+      anchors.left: parent.left
+      anchors.right: parent.right
+
       spacing: 0
 
       Repeater {
@@ -67,6 +70,10 @@ ColumnLayout {
           required property string modelData
 
           readonly property bool active: root.activeSection === tab.modelData
+
+          Layout.fillWidth: true
+          // this make all buttons have even width that is available in the row
+          Layout.preferredWidth: 1
 
           text: modelData
 
