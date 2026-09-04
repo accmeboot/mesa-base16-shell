@@ -1,135 +1,144 @@
-# Quickshell Configuration
+# mesa-shell
 
-A minimal and customizable status bar configuration for [Quickshell](https://github.com/outfoxxed/quickshell), designed for i3/Sway window managers.
+A minimal status bar, notification daemon and settings panel for
+[Quickshell](https://github.com/outfoxxed/quickshell), built for Sway.
 
-## Features
+![mesa-shell](assets/screenshot.png)
 
-- **Workspace Widget** - Visual workspace indicators with:
-  - Active workspace highlighting
+## Dependencies
 
-  - Urgent workspace notifications
-  - Click-to-switch functionality
-  
-- **Clock Widget** - Simple date and time display with minute precision
+| Dependency | Used for |
+| --- | --- |
+| [Quickshell](https://github.com/outfoxxed/quickshell) | The runtime the whole shell is built on |
+| `qt6.qt5compat` | `Qt5Compat.GraphicalEffects`, used to recolour the SVG icons |
+| Sway (or i3) | Workspaces and binding mode, read over the Sway/i3 IPC socket |
+| A `wlr-layer-shell` compositor | The bar and notifications are layer-shell surfaces |
+| UPower | Battery widget and the About section's battery details |
+| PipeWire | Audio section: sinks, sources, playback and recording streams |
+| NetworkManager | Network widget and the Wi-Fi / Ethernet sections |
+| BlueZ | Bluetooth section: adapters, pairing, connecting |
+| `/proc` (Linux) | CPU, RAM, uptime, hostname and kernel readouts |
+| `sh` | Scanning `$PATH` for the launcher and starting the chosen command |
 
-- **Gruvbox Theme** - Default color scheme based on Gruvbox Dark with full customization support
+The shell registers itself as the `org.freedesktop.Notifications` service, so it
+will not show notifications while another daemon (mako, dunst, ...) holds that
+name.
 
-- **Multi-Monitor Support** - Automatically creates bars on all connected displays
+Any font available to fontconfig works — `config.example.json` ships with
+`Arimo Nerd Font`, but no Nerd Font glyphs are actually used; every icon is an
+SVG in `assets/`.
 
-- **Dynamic Updates** - Automatically refreshes workspace states when windows are opened, closed, or moved
+## IPC
 
-## Requirements
+Quickshell names a config after the directory it sits in, so cloning this repo
+as `mesa-shell` registers it under that name rather than as the `default`
+config. Every command therefore needs `-c mesa-shell`; without it you get
+`Could not find "default" config directory or shell.qml in any valid config path.`
 
-- [Quickshell](https://github.com/outfoxxed/quickshell)
-- Sway or i3 window manager
-- `swaymsg` (for workspace monitoring)
+Handlers are reachable through `qs -c mesa-shell ipc call <target> <function>`.
+Run `qs -c mesa-shell ipc show` to list them from a running instance.
+
+### `dmenu` — the launcher in the bar
+
+```bash
+qs -c mesa-shell ipc call dmenu open
+qs -c mesa-shell ipc call dmenu close
+qs -c mesa-shell ipc call dmenu toggle
+```
+
+### `settingsWindow` — the settings window
+
+```bash
+qs -c mesa-shell ipc call settingsWindow open
+qs -c mesa-shell ipc call settingsWindow close
+qs -c mesa-shell ipc call settingsWindow toggle
+```
+
+### `config` — re-read `config.json`
+
+```bash
+qs -c mesa-shell ipc call config reload
+```
+
+The config file is watched and reloaded on change, so this is only needed when
+something writes it in a way the watcher misses.
+
+### Sway keybindings
+
+```
+bindsym $mod+d exec qs -c mesa-shell ipc call dmenu toggle
+bindsym $mod+p exec qs -c mesa-shell ipc call settingsWindow toggle
+```
 
 ## Installation
 
-1. Clone or copy this repository to `~/.config/quickshell/`:
-   ```bash
-   git clone <repository-url> ~/.config/quickshell
-   ```
+Clone the repository into your Quickshell config directory. The directory name
+becomes the config name:
 
-2. Start Quickshell:
-   ```bash
-   quickshell
-   ```
+```bash
+git clone git@github.com:accmeboot/mesa-shell.git ~/.config/quickshell/mesa-shell
+```
+
+That leaves `~/.config/quickshell/mesa-shell/shell.qml` in place.
+
+Create a config from the example:
+
+```bash
+cp ~/.config/quickshell/mesa-shell/config.example.json \
+   ~/.config/quickshell/mesa-shell/config.json
+```
+
+`config.json` holds the colours, font, `spacing` and `border` values. It is
+watched at runtime, so edits apply without restarting.
+
+Run it:
+
+```bash
+qs -c mesa-shell
+```
+
+To start it with Sway, add this to your Sway config:
+
+```
+exec qs -c mesa-shell -d
+```
 
 ## Configuration
 
-### Colors, Font & Spacing
+`config.json` lives next to `shell.qml` and is watched at runtime, so saving it
+re-applies immediately. Every key is optional — anything you leave out falls
+back to the default below.
 
-Copy `config.example.json` to `config.json` in the same directory to customize:
+### `colors`
 
-```json
-{
-  "colors": {
-    "background": "#1d2021",
-    "surface": "#3c3836",
-    "on_surface": "#504945",
-    "foreground": "#d5c4a1",
-    "highlight": "#83a598",
-    "attention": "#fabd2f",
-    "ok": "#b8bb26",
-    "critical": "#fb4934"
-  },
-  "font": {
-    "name": "JetBrainsMono Nerd Font",
-    "size": 12
-  },
-  "spacing": 10
-}
-```
+The palette is eight semantic roles rather than a fixed set of hues, so a value
+is chosen by what it signals, not by what colour it is.
 
-`spacing` is a single base unit in pixels; widgets derive their padding and gaps
-from it (`spacing`, `spacing / 2`, `spacing * 2`, ...).
+| Key | Default | Used for |
+| --- | --- | --- |
+| `background` | `#1d2021` | Bar, window and menu backgrounds; also the gap showing between items in a list |
+| `surface` | `#3c3836` | Raised fills — cards, buttons, the settings tab strip |
+| `on_surface` | `#504945` | Every border, and text for absent information (`No playback`, `Unknown`) or disabled controls |
+| `foreground` | `#d5c4a1` | Primary text and icons |
+| `highlight` | `#83a598` | Accent — focused workspace, active tab, text selection, slider fill |
+| `ok` | `#b8bb26` | Healthy state — connected, paired, enabled, normal threshold band |
+| `attention` | `#fabd2f` | Transitional or warning state — connecting, pairing, scanning, warning threshold band |
+| `critical` | `#fb4934` | Failure or urgent state — disconnected, errors, urgent notifications, critical threshold band |
 
-The config file supports hot-reloading, so changes will be applied automatically.
+### `font`
 
-## File Structure
+| Key | Type | Default | Used for |
+| --- | --- | --- | --- |
+| `font.name` | string | `JetBrainsMono Nerd Font` | Any family fontconfig can resolve |
+| `font.size` | number | `12` | Point size; icon sizes are derived from it |
 
-```
-.
-├── shell.qml                    # Entry point
-├── Bar.qml                      # Main bar component
-├── Settings.qml                 # Configuration singleton
-├── MesaText.qml                 # Styled text component
-├── ClockWidget.qml              # Clock/date display
-├── WorkspacesWidget.qml         # Workspace indicator
-└── services/
-    └── WorkspacesService.qml    # Workspace state management
-```
+### Metrics
 
-## Customization
-
-### Adding Widgets
-
-Edit `Bar.qml` and add components to the `RowLayout`:
-
-```qml
-RowLayout {
-  WorkspacesWidget {
-    Layout.alignment: Qt.AlignLeft
-  }
-  
-  // Add your widget here
-  
-  ClockWidget {
-    Layout.alignment: Qt.AlignRight
-  }
-}
-```
-
-### Changing Bar Position
-
-Modify the `anchors` in `Bar.qml`:
-
-```qml
-anchors {
-  bottom: true  // Change from top to bottom
-  left: true
-  right: true
-}
-```
-
-## Color Scheme
-
-The palette is eight semantic colors, defaulting to Gruvbox Dark:
-
-- `background`: Window and widget background
-- `surface`: Raised surfaces - cards, menus, separators
-- `on_surface`: Borders, button fills, muted and disabled text
-- `foreground`: Primary text
-- `highlight`: Accent - focused workspace, active tab, selection
-- `ok`: Healthy state - connected, paired, enabled, normal thresholds
-- `attention`: Transitional or warning state - connecting, pairing, scanning
-- `critical`: Failure or urgent state - disconnected, errors, urgent notifications
+| Key | Type | Default | Used for |
+| --- | --- | --- | --- |
+| `spacing` | number | `10` | The base unit in pixels. Widget padding and the gaps between items derive from it, so raising it loosens the whole shell at once |
+| `border` | number | `1` | Border width in pixels for every bordered element, and the gap between items in the settings lists |
 
 ## License
 
-This configuration is provided as-is for personal use and modification.
-
-## Contributing
-
-Feel free to fork and customize this configuration to suit your needs!
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE).
