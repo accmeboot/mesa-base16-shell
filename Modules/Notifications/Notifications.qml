@@ -12,6 +12,8 @@ Scope {
     model: Quickshell.screens
 
     PanelWindow {
+      id: notificationsWindow
+
       required property var modelData
 
       screen: modelData
@@ -19,6 +21,8 @@ Scope {
       color: "transparent"
 
       WlrLayershell.layer: WlrLayer.Top
+
+      readonly property int maxVisible: 4
 
       property int count: NotificationsService.activeList.count ?? 0
 
@@ -43,7 +47,11 @@ Scope {
         Repeater {
           model: NotificationsService.activeList
 
-          Notification {}
+          Notification {
+            required property int index
+
+            visible: index < notificationsWindow.maxVisible
+          }
         }
       }
     }

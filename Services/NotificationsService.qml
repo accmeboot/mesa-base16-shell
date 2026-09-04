@@ -83,7 +83,7 @@ Singleton {
       "targetNotification": notification
     });
 
-    activeList.append(item);
+    activeList.insert(0, item);
     notificationsWatchers.push({
       id: notification.id,
       watcher: watcher
