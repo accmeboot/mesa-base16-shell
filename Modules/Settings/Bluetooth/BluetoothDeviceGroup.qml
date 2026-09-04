@@ -33,7 +33,9 @@ ColumnLayout {
   Binding {
     target: root.adapter
     property: "discovering"
-    value: root.adapter?.enabled ?? false
+    value: true
+    when: root.adapter?.state === BluetoothAdapterState.Enabled
+    restoreMode: Binding.RestoreNone
   }
 
   BluetoothAgent {
