@@ -13,7 +13,7 @@ Scope {
     FloatingWindow {
       title: "Settings"
 
-      implicitWidth: 800
+      implicitWidth: 600
       implicitHeight: 600
 
       property size size: Qt.size(implicitWidth, implicitHeight)

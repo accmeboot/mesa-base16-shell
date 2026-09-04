@@ -18,6 +18,54 @@ ColumnLayout {
 
   spacing: 0
 
+  Rectangle {
+    Layout.fillWidth: true
+
+    implicitHeight: tabs.implicitHeight
+    color: ConfigService.colors.base01
+
+    RowLayout {
+      id: tabs
+
+      spacing: 0
+
+      Repeater {
+        model: root.sections
+
+        Rectangle {
+          id: tab
+
+          required property string modelData
+
+          readonly property bool active: root.activeSection === tab.modelData
+
+          implicitWidth: label.implicitWidth + ConfigService.spacing.horizontal
+          implicitHeight: label.implicitHeight + ConfigService.spacing.vertical
+
+          color: tab.active ? ConfigService.colors.base0D : "transparent"
+
+          MesaText {
+            id: label
+
+            anchors.centerIn: parent
+
+            text: tab.modelData
+            color: tab.active ? ConfigService.colors.base00 : ConfigService.colors.base05
+          }
+
+          MouseArea {
+            anchors.fill: parent
+
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+
+            onClicked: root.activeSection = tab.modelData
+          }
+        }
+      }
+    }
+  }
+
   Component {
     id: audio
 
@@ -71,53 +119,4 @@ ColumnLayout {
     }
   }
 
-  Rectangle {
-    Layout.fillWidth: true
-
-    implicitHeight: tabs.implicitHeight
-    color: ConfigService.colors.base01
-
-    RowLayout {
-      id: tabs
-
-      anchors.centerIn: parent
-
-      spacing: 0
-
-      Repeater {
-        model: root.sections
-
-        Rectangle {
-          id: tab
-
-          required property string modelData
-
-          readonly property bool active: root.activeSection === tab.modelData
-
-          implicitWidth: label.implicitWidth + ConfigService.spacing.horizontal
-          implicitHeight: label.implicitHeight + ConfigService.spacing.vertical
-
-          color: tab.active ? ConfigService.colors.base0D : "transparent"
-
-          MesaText {
-            id: label
-
-            anchors.centerIn: parent
-
-            text: tab.modelData
-            color: tab.active ? ConfigService.colors.base00 : ConfigService.colors.base05
-          }
-
-          MouseArea {
-            anchors.fill: parent
-
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-
-            onClicked: root.activeSection = tab.modelData
-          }
-        }
-      }
-    }
-  }
 }
