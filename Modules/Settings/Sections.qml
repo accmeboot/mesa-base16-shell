@@ -42,6 +42,43 @@ ColumnLayout {
     AboutSection {}
   }
 
+
+  Rectangle {
+    id: rail
+
+    Layout.fillWidth: true
+
+    implicitHeight: tabs.implicitHeight
+    color: ConfigService.colors.surface
+
+    clip: true
+
+    RowLayout {
+      id: tabs
+
+      spacing: 0
+
+      Repeater {
+        model: root.sections
+
+        MesaButton {
+          id: tab
+
+          required property string modelData
+
+          readonly property bool active: root.activeSection === tab.modelData
+
+          text: modelData
+
+          color: tab.active ? ConfigService.colors.highlight : ConfigService.colors.surface
+          contentColor: tab.active ? ConfigService.colors.background : ConfigService.colors.foreground
+
+          onClicked: root.activeSection = tab.modelData
+        }
+      }
+    }
+  }
+
   ScrollView {
     id: scroll
 
@@ -68,44 +105,6 @@ ColumnLayout {
       }
 
       onLoaded: scroll.contentItem.contentY = 0
-    }
-  }
-
-  Rectangle {
-    id: rail
-
-    Layout.fillWidth: true
-
-    implicitHeight: tabs.implicitHeight
-    color: ConfigService.colors.surface
-
-    clip: true
-
-    RowLayout {
-      id: tabs
-
-      spacing: 0
-
-      anchors.centerIn: parent
-
-      Repeater {
-        model: root.sections
-
-        MesaButton {
-          id: tab
-
-          required property string modelData
-
-          readonly property bool active: root.activeSection === tab.modelData
-
-          text: modelData
-
-          color: tab.active ? ConfigService.colors.highlight : ConfigService.colors.surface
-          contentColor: tab.active ? ConfigService.colors.background : ConfigService.colors.foreground
-
-          onClicked: root.activeSection = tab.modelData
-        }
-      }
     }
   }
 }
