@@ -14,10 +14,12 @@ Scope {
       title: "Settings"
 
       implicitWidth: 800
-      implicitHeight: 780
+      implicitHeight: 600
 
-      minimumSize: Qt.size(800, 780)
-      maximumSize: Qt.size(800, 780)
+      property size size: Qt.size(implicitWidth, implicitHeight)
+
+      minimumSize: size
+      maximumSize: size
 
       color: ConfigService.colors.base00
 

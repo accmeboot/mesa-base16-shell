@@ -1,4 +1,3 @@
-import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.Pipewire
 
@@ -29,7 +28,7 @@ ColumnLayout {
     title: "Output"
     emptyText: "No outputs"
 
-    model: root.sinks
+    nodes: root.sinks
     defaultNode: Pipewire.defaultAudioSink
 
     onNodeActivated: node => Pipewire.preferredDefaultAudioSink = node
@@ -39,7 +38,7 @@ ColumnLayout {
     title: "Input"
     emptyText: "No inputs"
 
-    model: root.sources
+    nodes: root.sources
     defaultNode: Pipewire.defaultAudioSource
 
     icon: "microphone"
@@ -52,7 +51,7 @@ ColumnLayout {
     title: "Playback"
     emptyText: "No playback"
 
-    model: root.playbacks
+    nodes: root.playbacks
     selectable: false
   }
 
@@ -60,11 +59,7 @@ ColumnLayout {
     title: "Recording"
     emptyText: "No recording"
 
-    model: root.recordings
+    nodes: root.recordings
     selectable: false
-  }
-
-  Item {
-    Layout.fillHeight: true
   }
 }

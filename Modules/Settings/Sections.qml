@@ -1,59 +1,120 @@
-import Quickshell
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 
 import qs.Services
 import qs.Components
+import qs.Modules.Settings.Audio
+import qs.Modules.Settings.Network
+import qs.Modules.Settings.Bluetooth
+import qs.Modules.Settings.About
 
 ColumnLayout {
-  id: rootRow
-  property var sections: ["Audio", "Network", "Bluetooth", "About"]
-  property string activeSection: sections[0]
+  id: root
+
+  readonly property var sections: ["Audio", "Network", "Bluetooth", "About"]
+
+  property string activeSection: root.sections[0]
+
   spacing: 0
-  Rectangle {
-    id: contentRectangle
-    Layout.fillHeight: true
+
+  Component {
+    id: audio
+
+    AudioSection {}
+  }
+
+  Component {
+    id: network
+
+    NetworkSection {}
+  }
+
+  Component {
+    id: bluetooth
+
+    BluetoothSection {}
+  }
+
+  Component {
+    id: about
+
+    AboutSection {}
+  }
+
+  ScrollView {
+    id: scroll
+
     Layout.fillWidth: true
-    color: "transparent"
+    Layout.fillHeight: true
+
+    clip: true
+    padding: ConfigService.spacing.horizontal / 2
+    contentWidth: scroll.availableWidth
+    contentHeight: section.implicitHeight
+
     Loader {
-      anchors.fill: parent
-      anchors.margins: ConfigService.spacing.horizontal / 2
-      source: `${rootRow.activeSection}Section.qml`
+      id: section
+
+      width: scroll.availableWidth
+
+      sourceComponent: {
+        switch (root.activeSection) {
+        case "Network": return network;
+        case "Bluetooth": return bluetooth;
+        case "About": return about;
+        default: return audio;
+        }
+      }
+
+      onLoaded: scroll.contentItem.contentY = 0
     }
   }
 
   Rectangle {
     Layout.fillWidth: true
-    Layout.alignment: Qt.AlignTop
+
+    implicitHeight: tabs.implicitHeight
     color: ConfigService.colors.base01
-    implicitWidth: sectionCulumn.width
-    implicitHeight: sectionCulumn.height
+
     RowLayout {
-      id: sectionCulumn
+      id: tabs
+
       anchors.centerIn: parent
+
+      spacing: 0
+
       Repeater {
-        model: sections
+        model: root.sections
+
         Rectangle {
+          id: tab
+
           required property string modelData
-          implicitWidth: sectionText.implicitWidth + ConfigService.spacing.horizontal
-          implicitHeight: sectionText.implicitHeight + ConfigService.spacing.vertical
-          Layout.fillWidth: true
-          color: activeSection === modelData ? ConfigService.colors.base0D : "transparent"
+
+          readonly property bool active: root.activeSection === tab.modelData
+
+          implicitWidth: label.implicitWidth + ConfigService.spacing.horizontal
+          implicitHeight: label.implicitHeight + ConfigService.spacing.vertical
+
+          color: tab.active ? ConfigService.colors.base0D : "transparent"
+
           MesaText {
-            id: sectionText
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.leftMargin: ConfigService.spacing.horizontal / 2
-            anchors.topMargin: ConfigService.spacing.vertical / 2
-            text: modelData
-            color: activeSection === modelData ? ConfigService.colors.base00 : ConfigService.colors.base05
+            id: label
+
+            anchors.centerIn: parent
+
+            text: tab.modelData
+            color: tab.active ? ConfigService.colors.base00 : ConfigService.colors.base05
           }
 
           MouseArea {
             anchors.fill: parent
+
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: activeSection = modelData
+
+            onClicked: root.activeSection = tab.modelData
           }
         }
       }

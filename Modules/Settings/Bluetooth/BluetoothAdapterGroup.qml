@@ -4,31 +4,41 @@ import Quickshell.Bluetooth
 
 import qs.Services
 import qs.Components
+import qs.Modules.Settings.Common
 
 ColumnLayout {
   id: root
 
   readonly property var adapters: Bluetooth.adapters.values
-  Layout.fillWidth: true
-  spacing: ConfigService.spacing.vertical
+  readonly property alias count: repeater.count
 
-  component InfoRow: MesaText {
-    Layout.fillWidth: true
-    elide: Text.ElideRight
-  }
+  Layout.fillWidth: true
+
+  spacing: ConfigService.spacing.vertical
 
   component ToggleRow: RowLayout {
     id: toggle
+
     property bool active: false
     property bool available: true
     property int timeout: 0
+
     signal toggled
 
+    function formatTimeout(seconds: int): string {
+      if (seconds === 0) return "never";
+      if (seconds % 60 === 0) return `${seconds / 60} min`;
+
+      return `${seconds}s`;
+    }
+
     Layout.fillWidth: true
+
     spacing: ConfigService.spacing.horizontal / 2
 
     MesaButton {
       Layout.alignment: Qt.AlignVCenter
+
       enabled: toggle.available
       text: toggle.active ? "on" : "off"
       contentColor: {
@@ -37,60 +47,45 @@ ColumnLayout {
         if (!toggle.available) return colors.base03;
         return toggle.active ? colors.base0B : colors.base04;
       }
+
       onClicked: toggle.toggled()
     }
 
-    InfoRow {
-      Layout.alignment: Qt.AlignVCenter
+    InfoValue {
       visible: toggle.active && toggle.timeout > 0
-      text: `resets after ${root.formatTimeout(toggle.timeout)}`
+
+      text: `resets after ${toggle.formatTimeout(toggle.timeout)}`
       color: ConfigService.colors.base03
     }
   }
 
-  function formatTimeout(seconds: int): string {
-    if (seconds === 0) return "never";
-    if (seconds % 60 === 0) return `${seconds / 60} min`;
-
-    return `${seconds}s`;
-  }
-
   Repeater {
+    id: repeater
+
     model: root.adapters
 
-    Rectangle {
+    SettingsCard {
       id: card
+
       required property BluetoothAdapter modelData
+
       readonly property bool busy: card.modelData.state === BluetoothAdapterState.Enabling || card.modelData.state === BluetoothAdapterState.Disabling
       readonly property bool blocked: card.modelData.state === BluetoothAdapterState.Blocked
 
-      Layout.fillWidth: true
-      implicitHeight: content.implicitHeight + ConfigService.spacing.vertical * 2
-      color: ConfigService.colors.base01
-
-      GridLayout {
-        id: content
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.leftMargin: ConfigService.spacing.horizontal / 2
-        anchors.rightMargin: ConfigService.spacing.horizontal / 2
-        columns: 2
-        columnSpacing: ConfigService.spacing.horizontal
-        rowSpacing: ConfigService.spacing.vertical / 2
-
+      InfoGrid {
         MesaText {
           Layout.alignment: Qt.AlignVCenter
+
           text: card.modelData.name || card.modelData.adapterId
           font.bold: true
         }
 
         RowLayout {
           Layout.fillWidth: true
+
           spacing: ConfigService.spacing.horizontal / 2
 
-          InfoRow {
-            Layout.alignment: Qt.AlignVCenter
+          InfoValue {
             text: {
               switch (card.modelData.state) {
               case BluetoothAdapterState.Enabled: return "Enabled";
@@ -117,47 +112,48 @@ ColumnLayout {
 
           MesaButton {
             Layout.alignment: Qt.AlignVCenter
+
             enabled: !card.busy && !card.blocked
             text: card.modelData.enabled ? "Turn off" : "Turn on"
             contentColor: card.busy || card.blocked ? ConfigService.colors.base03 : ConfigService.colors.base05
+
             onClicked: card.modelData.enabled = !card.modelData.enabled
           }
         }
 
-        MesaText {
+        InfoLabel {
           text: "Adapter"
-          color: ConfigService.colors.base04
         }
 
-        InfoRow {
+        InfoValue {
           text: card.modelData.adapterId
         }
 
-        MesaText {
-          Layout.alignment: Qt.AlignVCenter
+        InfoLabel {
           Layout.topMargin: ConfigService.spacing.vertical
+
           text: "Discoverable"
-          color: ConfigService.colors.base04
         }
 
         ToggleRow {
           Layout.topMargin: ConfigService.spacing.vertical
+
           active: card.modelData.discoverable
           available: card.modelData.enabled
           timeout: card.modelData.discoverableTimeout
+
           onToggled: card.modelData.discoverable = !card.modelData.discoverable
         }
 
-        MesaText {
-          Layout.alignment: Qt.AlignVCenter
+        InfoLabel {
           text: "Pairable"
-          color: ConfigService.colors.base04
         }
 
         ToggleRow {
           active: card.modelData.pairable
           available: card.modelData.enabled
           timeout: card.modelData.pairableTimeout
+
           onToggled: card.modelData.pairable = !card.modelData.pairable
         }
       }
