@@ -19,6 +19,8 @@ TextField {
   rightPadding: ConfigService.spacing
 
   background: Rectangle {
-    color: ConfigService.colors.surface
+    color: "transparent"
+    border.color: ConfigService.colors.on_surface
+    border.width: ConfigService.border
   }
 }
