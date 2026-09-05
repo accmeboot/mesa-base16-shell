@@ -12,7 +12,7 @@ PopupWindow {
   property Item anchorItem: null
   property bool submenu: false
   property PopupWindow parentMenu: null
-  property QsMenuEntry openEntry: null
+  property Item openRow: null
 
   readonly property bool isOpen: root.menuHandle !== null
   readonly property bool shouldShow: root.isOpen && opener.children.values.length > 0
@@ -31,6 +31,30 @@ PopupWindow {
 
   onBackerVisibilityChanged: if (!root.backingWindowVisible && root.shouldShow) root.closeAll()
 
+  onOpenRowChanged: {
+    if (!submenuLoader.item) {
+      if (!root.openRow) return;
+
+      submenuLoader.setSource(Qt.resolvedUrl("MesaMenu.qml"), {
+        submenu: true,
+        parentMenu: root,
+        anchorItem: root.openRow,
+        menuHandle: root.openRow.modelData
+      });
+
+      return;
+    }
+
+    const submenu = submenuLoader.item;
+
+    submenu.menuHandle = null;
+
+    if (!root.openRow) return;
+
+    submenu.anchorItem = root.openRow;
+    submenu.menuHandle = root.openRow.modelData;
+  }
+
   function openAt(item, handle): void {
     const toggle = root.isOpen && root.anchorItem === item;
     root.close();
@@ -42,7 +66,8 @@ PopupWindow {
   }
 
   function close(): void {
-    root.openEntry = null;
+    root.openRow = null;
+    submenuLoader.source = "";
     root.menuHandle = null;
   }
 
@@ -56,6 +81,8 @@ PopupWindow {
 
     menu: root.menuHandle
   }
+
+  Loader { id: submenuLoader }
 
   Rectangle {
     id: background
@@ -85,7 +112,6 @@ PopupWindow {
           required property QsMenuEntry modelData
 
           readonly property bool highlighted: mouse.containsMouse
-          readonly property bool submenuOpen: root.openEntry === row.modelData
           readonly property color foreground: {
             if (!modelData.enabled) return ConfigService.colors.on_surface;
             return highlighted ? ConfigService.colors.background : ConfigService.colors.foreground;
@@ -97,19 +123,6 @@ PopupWindow {
           color: {
             if (modelData.isSeparator) return ConfigService.colors.on_surface;
             return highlighted ? ConfigService.colors.highlight : ConfigService.colors.background;
-          }
-          onSubmenuOpenChanged: {
-            if (!row.submenuOpen) {
-              submenuLoader.source = "";
-              return;
-            }
-
-            submenuLoader.setSource(Qt.resolvedUrl("MesaMenu.qml"), {
-              submenu: true,
-              parentMenu: root,
-              anchorItem: row,
-              menuHandle: row.modelData
-            });
           }
 
           RowLayout {
@@ -160,8 +173,6 @@ PopupWindow {
             }
           }
 
-          Loader { id: submenuLoader }
-
           MouseArea {
             id: mouse
 
@@ -169,10 +180,10 @@ PopupWindow {
             enabled: !row.modelData.isSeparator && row.modelData.enabled
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onEntered: root.openEntry = row.modelData.hasChildren ? row.modelData : null
+            onEntered: root.openRow = row.modelData.hasChildren ? row : null
             onClicked: {
               if (row.modelData.hasChildren) {
-                root.openEntry = row.modelData;
+                root.openRow = row;
                 return;
               }
 
