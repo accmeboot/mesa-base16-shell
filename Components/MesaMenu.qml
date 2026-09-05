@@ -12,52 +12,38 @@ PopupWindow {
   property Item anchorItem: null
   property bool submenu: false
   property PopupWindow parentMenu: null
+  property QsMenuEntry openEntry: null
 
-  property Loader activeSubmenu: null
-
-  property bool pendingOpen: false
-  property bool settled: false
-  readonly property bool ready: opener.children.values.length > 0
-
+  readonly property bool isOpen: root.menuHandle !== null
+  readonly property bool shouldShow: root.isOpen && opener.children.values.length > 0
   readonly property int rowPadding: Math.round(ConfigService.spacing / 2)
   readonly property int indicatorSize: Math.round(ConfigService.font.size * 1.5)
   readonly property bool hasIndicators: opener.children.values.some(entry => entry.icon !== "" || entry.buttonType !== QsMenuButtonType.None)
 
-  visible: root.pendingOpen && root.ready && root.settled
+  visible: root.shouldShow
   color: "transparent"
   grabFocus: true
-
   anchor.item: root.anchorItem
   anchor.edges: root.submenu ? Edges.Right | Edges.Top : Edges.Bottom | Edges.Left
   anchor.gravity: root.submenu ? Edges.Right | Edges.Bottom : Edges.Bottom | Edges.Right
-
   implicitWidth: background.implicitWidth
   implicitHeight: background.implicitHeight
 
-  onImplicitWidthChanged: root.remap()
-  onImplicitHeightChanged: root.remap()
+  onBackerVisibilityChanged: if (!root.backingWindowVisible && root.shouldShow) root.closeAll()
 
   function openAt(item, handle): void {
-    const reopening = root.pendingOpen && root.anchorItem === item;
+    const toggle = root.isOpen && root.anchorItem === item;
     root.close();
 
-    if (reopening) return;
+    if (toggle) return;
 
     root.anchorItem = item;
     root.menuHandle = handle;
-    root.pendingOpen = true;
-    root.remap();
-  }
-
-  function remap(): void {
-    root.settled = false;
-    if (root.pendingOpen) settleTimer.restart();
   }
 
   function close(): void {
-    root.closeSubmenu();
-    root.pendingOpen = false;
-    root.settled = false;
+    root.openEntry = null;
+    root.menuHandle = null;
   }
 
   function closeAll(): void {
@@ -65,39 +51,21 @@ PopupWindow {
     else root.close();
   }
 
-  function closeSubmenu(): void {
-    if (!root.activeSubmenu) return;
-
-    if (root.activeSubmenu.item) root.activeSubmenu.item.close();
-    root.activeSubmenu.source = "";
-    root.activeSubmenu = null;
-  }
-
-  Timer {
-    id: settleTimer
-
-    interval: 30
-    onTriggered: root.settled = true
-  }
-
   QsMenuOpener {
     id: opener
-    menu: root.pendingOpen ? root.menuHandle : null
+
+    menu: root.menuHandle
   }
 
   Rectangle {
     id: background
 
     anchors.fill: parent
-
     implicitWidth: entries.implicitWidth + border.width * 2
     implicitHeight: entries.implicitHeight + border.width * 2
-
     color: ConfigService.colors.background
-
     border.width: ConfigService.border
     border.color: ConfigService.colors.on_surface
-
     focus: true
     Keys.onEscapePressed: root.closeAll()
 
@@ -106,7 +74,6 @@ PopupWindow {
 
       anchors.fill: parent
       anchors.margins: background.border.width
-
       spacing: 0
 
       Repeater {
@@ -118,86 +85,62 @@ PopupWindow {
           required property QsMenuEntry modelData
 
           readonly property bool highlighted: mouse.containsMouse
+          readonly property bool submenuOpen: root.openEntry === row.modelData
           readonly property color foreground: {
             if (!modelData.enabled) return ConfigService.colors.on_surface;
             return highlighted ? ConfigService.colors.background : ConfigService.colors.foreground;
           }
 
           Layout.fillWidth: true
-
           implicitWidth: modelData.isSeparator ? 0 : content.implicitWidth + root.rowPadding * 2
           implicitHeight: modelData.isSeparator ? ConfigService.border : content.implicitHeight + ConfigService.spacing
-
           color: {
             if (modelData.isSeparator) return ConfigService.colors.on_surface;
             return highlighted ? ConfigService.colors.highlight : ConfigService.colors.background;
           }
-
-          function openSubmenu(): void {
-            if (root.activeSubmenu === submenuLoader) return;
-
-            root.closeSubmenu();
-
-            submenuLoader.setSource(Qt.resolvedUrl("MesaMenu.qml"), {
-              submenu: true,
-              parentMenu: root
-            });
-            submenuLoader.item.openAt(row, row.modelData);
-
-            root.activeSubmenu = submenuLoader;
-          }
-
-          function activate(): void {
-            if (row.modelData.hasChildren) {
-              row.openSubmenu();
+          onSubmenuOpenChanged: {
+            if (!row.submenuOpen) {
+              submenuLoader.source = "";
               return;
             }
 
-            row.modelData.triggered();
-            root.closeAll();
+            submenuLoader.setSource(Qt.resolvedUrl("MesaMenu.qml"), {
+              submenu: true,
+              parentMenu: root,
+              anchorItem: row,
+              menuHandle: row.modelData
+            });
           }
 
           RowLayout {
             id: content
 
             visible: !row.modelData.isSeparator
-
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: root.rowPadding
             anchors.rightMargin: root.rowPadding
-
             spacing: ConfigService.spacing
 
             Item {
               visible: root.hasIndicators
-
-              Layout.preferredWidth: Math.max(root.indicatorSize, checkMark.visible ? checkMark.implicitWidth : 0)
+              Layout.preferredWidth: root.indicatorSize
               Layout.preferredHeight: root.indicatorSize
 
-              MesaText {
-                id: checkMark
+              MesaIndicator {
+                id: indicator
 
                 anchors.centerIn: parent
-
                 visible: row.modelData.buttonType !== QsMenuButtonType.None
+                checked: row.modelData.checkState === Qt.Checked
+                radio: row.modelData.buttonType === QsMenuButtonType.RadioButton
                 color: row.foreground
-
-                text: {
-                  const checked = row.modelData.checkState === Qt.Checked;
-
-                  if (row.modelData.buttonType === QsMenuButtonType.CheckBox) return checked ? "[x]" : "[ ]";
-                  if (row.modelData.buttonType === QsMenuButtonType.RadioButton) return checked ? "(o)" : "( )";
-                  return "";
-                }
               }
 
               IconImage {
                 anchors.centerIn: parent
-
-                visible: !checkMark.visible && row.modelData.icon !== ""
-
+                visible: !indicator.visible && row.modelData.icon !== ""
                 implicitSize: root.indicatorSize
                 source: row.modelData.icon
               }
@@ -205,15 +148,14 @@ PopupWindow {
 
             MesaText {
               Layout.fillWidth: true
-
               text: row.modelData.text
               color: row.foreground
             }
 
-            MesaText {
+            MesaIcon {
               visible: row.modelData.hasChildren
-
-              text: ">"
+              name: "arrow-right"
+              size: root.indicatorSize
               color: row.foreground
             }
           }
@@ -224,17 +166,19 @@ PopupWindow {
             id: mouse
 
             anchors.fill: parent
-
             enabled: !row.modelData.isSeparator && row.modelData.enabled
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
+            onEntered: root.openEntry = row.modelData.hasChildren ? row.modelData : null
+            onClicked: {
+              if (row.modelData.hasChildren) {
+                root.openEntry = row.modelData;
+                return;
+              }
 
-            onEntered: {
-              if (row.modelData.hasChildren) row.openSubmenu();
-              else root.closeSubmenu();
+              row.modelData.triggered();
+              root.closeAll();
             }
-
-            onClicked: row.activate()
           }
         }
       }

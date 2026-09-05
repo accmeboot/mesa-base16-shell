@@ -10,7 +10,7 @@ import qs.Services
 RowLayout {
   id: trayRow
 
-  readonly property bool menuOpen: trayMenu.visible
+  readonly property bool menuOpen: trayMenu.isOpen
 
   property bool isVisible: false
 

@@ -118,14 +118,13 @@ ColumnLayout {
           text: "Autoconnect"
         }
 
-        MesaButton {
+        MesaCheckBox {
           Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
           Layout.topMargin: ConfigService.spacing
 
-          text: card.modelData.autoconnect ? "on" : "off"
-          contentColor: card.modelData.autoconnect ? ConfigService.colors.ok : ConfigService.colors.foreground
+          checked: card.modelData.autoconnect
 
-          onClicked: card.modelData.autoconnect = !card.modelData.autoconnect
+          onToggled: card.modelData.autoconnect = !card.modelData.autoconnect
         }
       }
     }

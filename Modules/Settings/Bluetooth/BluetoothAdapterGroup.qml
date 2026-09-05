@@ -36,14 +36,13 @@ ColumnLayout {
 
     spacing: ConfigService.spacing
 
-    MesaButton {
+    MesaCheckBox {
       Layout.alignment: Qt.AlignVCenter
 
       enabled: toggle.available
-      text: toggle.active ? "on" : "off"
-      contentColor: toggle.active ? ConfigService.colors.ok : ConfigService.colors.foreground
+      checked: toggle.active
 
-      onClicked: toggle.toggled()
+      onToggled: toggle.toggled()
     }
 
     InfoValue {

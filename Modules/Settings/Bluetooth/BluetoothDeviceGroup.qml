@@ -151,14 +151,13 @@ ColumnLayout {
           text: "Connect automatically"
         }
 
-        MesaButton {
+        MesaCheckBox {
           Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
           visible: card.modelData.paired
-          text: card.modelData.trusted ? "on" : "off"
-          contentColor: card.modelData.trusted ? ConfigService.colors.ok : ConfigService.colors.foreground
+          checked: card.modelData.trusted
 
-          onClicked: card.modelData.trusted = !card.modelData.trusted
+          onToggled: card.modelData.trusted = !card.modelData.trusted
         }
 
         InfoLabel {
@@ -167,14 +166,13 @@ ColumnLayout {
           text: "Wake from sleep"
         }
 
-        MesaButton {
+        MesaCheckBox {
           Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
           visible: card.modelData.paired
-          text: card.modelData.wakeAllowed ? "on" : "off"
-          contentColor: card.modelData.wakeAllowed ? ConfigService.colors.ok : ConfigService.colors.foreground
+          checked: card.modelData.wakeAllowed
 
-          onClicked: card.modelData.wakeAllowed = !card.modelData.wakeAllowed
+          onToggled: card.modelData.wakeAllowed = !card.modelData.wakeAllowed
         }
       }
 
