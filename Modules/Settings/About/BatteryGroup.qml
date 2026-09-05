@@ -30,9 +30,10 @@ SettingsCard {
       text: {
         switch (root.device?.state) {
         case UPowerDeviceState.Charging: return "Charging";
-        case UPowerDeviceState.PendingCharge: return "Pending charge";
-        case UPowerDeviceState.Discharging: return "On battery";
-        case UPowerDeviceState.PendingDischarge: return "Pending discharge";
+        case UPowerDeviceState.PendingCharge: return "Plugged in";
+        case UPowerDeviceState.PendingDischarge: 
+        case UPowerDeviceState.Discharging:
+          return "On battery";
         case UPowerDeviceState.FullyCharged: return "Fully charged";
         case UPowerDeviceState.Empty: return "Empty";
         default: return "Unknown";

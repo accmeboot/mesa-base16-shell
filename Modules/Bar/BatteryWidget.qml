@@ -22,6 +22,7 @@ Rectangle {
   readonly property string status: {
     switch (device.state) {
     case UPowerDeviceState.Charging:
+      return "plugged"
     case UPowerDeviceState.PendingCharge:
       return "charging"
     case UPowerDeviceState.FullyCharged:
