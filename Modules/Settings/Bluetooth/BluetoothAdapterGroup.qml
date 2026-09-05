@@ -137,18 +137,6 @@ ColumnLayout {
 
           onToggled: card.modelData.discoverable = !card.modelData.discoverable
         }
-
-        InfoLabel {
-          text: "Pairable"
-        }
-
-        ToggleRow {
-          active: card.modelData.pairable
-          available: card.modelData.enabled
-          timeout: card.modelData.pairableTimeout
-
-          onToggled: card.modelData.pairable = !card.modelData.pairable
-        }
       }
     }
   }
