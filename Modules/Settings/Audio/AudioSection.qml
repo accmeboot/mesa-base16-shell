@@ -26,7 +26,6 @@ ColumnLayout {
 
   AudioNodeGroup {
     title: "Output"
-    emptyText: "No outputs"
 
     nodes: root.sinks
     defaultNode: Pipewire.defaultAudioSink
@@ -36,7 +35,6 @@ ColumnLayout {
 
   AudioNodeGroup {
     title: "Input"
-    emptyText: "No inputs"
 
     nodes: root.sources
     defaultNode: Pipewire.defaultAudioSource
@@ -49,7 +47,6 @@ ColumnLayout {
 
   AudioNodeGroup {
     title: "Playback"
-    emptyText: "No playback"
 
     nodes: root.playbacks
     selectable: false
@@ -57,7 +54,6 @@ ColumnLayout {
 
   AudioNodeGroup {
     title: "Recording"
-    emptyText: "No recording"
 
     nodes: root.recordings
     selectable: false

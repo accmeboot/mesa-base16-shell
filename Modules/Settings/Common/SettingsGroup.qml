@@ -8,8 +8,6 @@ ColumnLayout {
   id: root
 
   property string title
-  property string emptyText
-  property bool empty: false
   property Component headerContent: null
 
   default property alias content: body.data
@@ -42,19 +40,11 @@ ColumnLayout {
     }
   }
 
-  MesaText {
-    visible: root.empty
-
-    text: root.emptyText
-    color: ConfigService.colors.on_surface
-  }
-
   ColumnLayout {
     id: body
 
     Layout.fillWidth: true
 
-    visible: !root.empty
     spacing: ConfigService.spacing
   }
 }

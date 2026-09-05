@@ -10,8 +10,7 @@ ColumnLayout {
 
   SettingsGroup {
     title: "Ethernet"
-    emptyText: "No wired devices"
-    empty: ethernet.count === 0
+    visible: ethernet.count > 0
 
     EthernetGroup {
       id: ethernet
@@ -20,8 +19,7 @@ ColumnLayout {
 
   SettingsGroup {
     title: "Wifi"
-    emptyText: "No networks"
-    empty: wifi.count === 0
+    visible: wifi.count > 0
 
     WifiGroup {
       id: wifi

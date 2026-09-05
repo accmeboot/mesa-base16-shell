@@ -16,8 +16,7 @@ ColumnLayout {
 
   SettingsGroup {
     title: "Battery"
-    emptyText: "No battery"
-    empty: !battery.available
+    visible: battery.available
 
     BatteryGroup {
       id: battery

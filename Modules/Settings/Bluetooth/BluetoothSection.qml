@@ -11,8 +11,7 @@ ColumnLayout {
 
   SettingsGroup {
     title: "Adapter"
-    emptyText: "No bluetooth adapters"
-    empty: adapters.count === 0
+    visible: adapters.count > 0
 
     BluetoothAdapterGroup {
       id: adapters
@@ -21,8 +20,7 @@ ColumnLayout {
 
   SettingsGroup {
     title: "Devices"
-    emptyText: devices.scanning ? "Searching" : "No devices"
-    empty: devices.count === 0
+    visible: devices.count > 0
 
     headerContent: MesaText {
       visible: devices.scanning

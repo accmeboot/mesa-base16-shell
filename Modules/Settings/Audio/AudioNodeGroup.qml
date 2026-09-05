@@ -16,7 +16,7 @@ SettingsGroup {
 
   signal nodeActivated(PwNode node)
 
-  empty: root.nodes.length === 0
+  visible: root.nodes.length > 0
 
   ColumnLayout {
     Layout.fillWidth: true

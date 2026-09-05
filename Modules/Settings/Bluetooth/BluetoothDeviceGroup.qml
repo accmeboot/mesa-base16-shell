@@ -67,6 +67,8 @@ ColumnLayout {
 
       readonly property bool selected: root.selectedDevice === card.modelData
 
+      highlighted: card.selected
+
       RowLayout {
         Layout.fillWidth: true
 

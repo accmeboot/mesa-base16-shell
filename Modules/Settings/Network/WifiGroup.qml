@@ -48,6 +48,8 @@ ColumnLayout {
       readonly property bool prompting: root.promptedNetwork === card.modelData
       readonly property bool needsPassword: !card.modelData.known && card.modelData.security !== WifiSecurityType.Open && card.modelData.security !== WifiSecurityType.Owe
 
+      highlighted: card.selected
+
       function activate(): void {
         const network = card.modelData;
 
