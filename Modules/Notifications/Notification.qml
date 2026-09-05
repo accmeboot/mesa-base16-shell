@@ -28,7 +28,6 @@ Rectangle {
     icon: "cross"
     color: ConfigService.colors.critical
     contentColor: ConfigService.colors.background
-    border.width: 0
     onClicked: {
         NotificationsService.dismissOrExpireNotification(modelData.id);
     }
