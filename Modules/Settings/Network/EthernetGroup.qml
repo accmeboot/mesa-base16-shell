@@ -118,7 +118,7 @@ ColumnLayout {
           text: "Autoconnect"
         }
 
-        MesaCheckBox {
+        MesaIndicator {
           Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
           Layout.topMargin: ConfigService.spacing
 

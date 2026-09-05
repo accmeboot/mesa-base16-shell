@@ -42,35 +42,25 @@ ColumnLayout {
 
     spacing: ConfigService.spacing
 
-    MesaIcon {
-      Layout.alignment: Qt.AlignVCenter
-
-      visible: root.selectable && root.isDefault
-      name: "dot"
-      color: ConfigService.colors.ok
-      size: ConfigService.font.size * 0.5
+    MesaIndicator {
+      radio: true
+      checked: root.isDefault
+      visible: root.selectable
     }
 
     MesaText {
       id: label
-
       Layout.fillWidth: true
-
       text: root.displayName
       elide: Text.ElideRight
+    }
 
-      MouseArea {
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        width: label.contentWidth
-
-        enabled: root.selectable
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
-
-        onClicked: root.activated()
-      }
+    MouseArea {
+      anchors.fill: parent
+      enabled: root.selectable
+      hoverEnabled: true
+      cursorShape: Qt.PointingHandCursor
+      onClicked: root.activated()
     }
   }
 

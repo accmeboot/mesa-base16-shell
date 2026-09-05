@@ -151,7 +151,7 @@ ColumnLayout {
           text: "Connect automatically"
         }
 
-        MesaCheckBox {
+        MesaIndicator {
           Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
           visible: card.modelData.paired
@@ -166,7 +166,7 @@ ColumnLayout {
           text: "Wake from sleep"
         }
 
-        MesaCheckBox {
+        MesaIndicator {
           Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
           visible: card.modelData.paired

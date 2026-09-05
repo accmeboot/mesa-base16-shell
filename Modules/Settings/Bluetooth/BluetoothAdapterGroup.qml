@@ -36,7 +36,7 @@ ColumnLayout {
 
     spacing: ConfigService.spacing
 
-    MesaCheckBox {
+    MesaIndicator {
       Layout.alignment: Qt.AlignVCenter
 
       enabled: toggle.available
